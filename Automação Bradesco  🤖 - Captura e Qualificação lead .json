@@ -1,0 +1,1896 @@
+{
+  "name": "Automação Bradesco  🤖 - Captura e Qualificação lead",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "WEBHOOK/BRADESCO",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -7696,
+        -48
+      ],
+      "id": "e682754e-85c7-45e6-88d9-797c5cfa7158",
+      "name": "Webhook",
+      "webhookId": "b924e362-55ab-4cea-8cbb-6a9aa4f79120"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1bGuTWcNCMjTed91deAZo8eGwy38tqWh8C7rU6PPG27M",
+          "mode": "list",
+          "cachedResultName": "Leads_Bruto_Bradesco",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bGuTWcNCMjTed91deAZo8eGwy38tqWh8C7rU6PPG27M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Leads_Brutos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bGuTWcNCMjTed91deAZo8eGwy38tqWh8C7rU6PPG27M/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Nome": "={{$json[\"nome\"]}}",
+            "Email": "={{$json[\"email\"]}}",
+            "Data_Nascimento": "={{$json[\"nascimento\"]}}",
+            "Estado": "={{$json[\"estado\"]}}",
+            "Cidade": "={{$json[\"cidade\"]}}",
+            "Numero_Vidas": "={{$json[\"vidas\"]}}",
+            "Idade_Calculada": "={{$json[\"idade\"]}}",
+            "Classificacao_Inicial": "={{$json[\"classificacao_inicial_emoji\"]}}",
+            "Score_Inicial": "={{$json[\"score_inicial\"]}}",
+            "Status": "Aguardando_5min",
+            "Data_Hora": "=\"Data_Hora\": \"={{$now.setZone('America/Sao_Paulo').toISO()}}\"",
+            " Lead_ID": "={{$json[\"lead_id\"]}}",
+            " Telefone": "={{$json[\"telefone_limpo\"]}}",
+            "Mensagem": "={{$json[\"mensagem\"] || ''}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": " Lead_ID",
+              "displayName": " Lead_ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": " Telefone",
+              "displayName": " Telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Data_Nascimento",
+              "displayName": "Data_Nascimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Cidade",
+              "displayName": "Cidade",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Numero_Vidas",
+              "displayName": "Numero_Vidas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Idade_Calculada",
+              "displayName": "Idade_Calculada",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Classificacao_Inicial",
+              "displayName": "Classificacao_Inicial",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Score_Inicial",
+              "displayName": "Score_Inicial",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Data_Hora",
+              "displayName": "Data_Hora",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Mensagem",
+              "displayName": "Mensagem",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "useAppend": true
+        }
+      },
+      "id": "d9f686c2-16d8-4662-ab08-5ea3351dd44d",
+      "name": "📋 Salvar Leads Brutos",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        -6768,
+        -48
+      ],
+      "typeVersion": 4,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "6bd1TECz7NA8rZx3",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "contato@abmixcorretora.com.br",
+        "subject": "=🔔 Novo Lead - {{$json.nome}}",
+        "message": "=<table border=\"1\" style=\"border-collapse:collapse\">\n<tr><td><b>ID</b></td><td>{{$json.lead_id}}</td></tr>\n<tr><td><b>Nome</b></td><td>{{$json.nome}}</td></tr>\n<tr><td><b>Telefone</b></td><td>{{$json.telefone_limpo}}</td></tr>\n<tr><td><b>Email</b></td><td>{{$json.email}}</td></tr>\n<tr><td><b>Cidade/UF</b></td><td>{{$json.cidade}}/{{$json.estado}}</td></tr>\n<tr><td><b>Vidas</b></td><td>{{$json.vidas}}</td></tr>\n<tr><td><b>Mensagem</b></td><td>{{$json.mensagem}}</td></tr>\n<tr><td><b>Classificação</b></td><td>{{$json.classificacao_inicial}} ({{$json.score_inicial}})</td></tr>\n</table>",
+        "options": {}
+      },
+      "id": "f8e9813c-58ea-4021-89ef-cc8729874d9a",
+      "name": "Email Controle Interno",
+      "type": "n8n-nodes-base.gmail",
+      "position": [
+        -7040,
+        32
+      ],
+      "typeVersion": 2,
+      "webhookId": "a4c2272c-eeef-4aaf-bb20-daa4f18cc84e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "TQEfvBijwxRH829Y",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const resposta = $input.all()[0].json;\n\nconsole.log(\"=== RESPOSTA COMPLETA DA OPENAI ===\");\nconsole.log(JSON.stringify(resposta, null, 2));\n\nreturn [{ json: resposta }];"
+      },
+      "id": "920d4844-ab5a-4aa0-8477-bfe8aa818b3d",
+      "name": "Debug OpenAI",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -5968,
+        -560
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const entrada = $input.all()[0].json;\n\n// Pega o conteúdo da OpenAI\nlet respostaCompleta = entrada.message?.content || entrada.content || \"\";\n\n// Extrai mensagem e dados\nlet msg = \"\";\nlet dadosExtraidos = {};\n\nif (respostaCompleta.includes(\"MENSAGEM:\") && respostaCompleta.includes(\"DADOS_EXTRAIDOS:\")) {\n  const inicioMsg = respostaCompleta.indexOf(\"MENSAGEM:\") + 9;\n  const fimMsg = respostaCompleta.indexOf(\"DADOS_EXTRAIDOS:\");\n  msg = respostaCompleta.substring(inicioMsg, fimMsg).trim();\n  \n  const inicioJson = respostaCompleta.indexOf(\"DADOS_EXTRAIDOS:\") + 16;\n  const jsonStr = respostaCompleta.substring(inicioJson).trim();\n  \n  try {\n    dadosExtraidos = JSON.parse(jsonStr);\n  } catch (e) {\n    console.error('Erro ao fazer parse do JSON:', e);\n  }\n} else {\n  msg = respostaCompleta;\n}\n\nreturn [{\n  json: {\n    ...entrada,\n    ...dadosExtraidos,\n    mensagem_mariana_loop: msg,\n    telefone_e164: entrada.telefone_e164,\n    qualificacao_completa: dadosExtraidos.qualificacao_completa === true\n  }\n}];"
+      },
+      "id": "336fd566-ac37-42cf-b2b8-fb6fecef9cb7",
+      "name": "Processar Resposta OpenAI",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        -5760,
+        -560
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "={{$json[\"prompt_mariana\"]}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -6304,
+        -544
+      ],
+      "id": "f24e4344-a19d-4e35-adc3-00060e37644b",
+      "name": "Mariana",
+      "credentials": {
+        "openAiApi": {
+          "id": "xCcTWQlpbwY6f4JY",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const dados = $input.all()[0].json;\n\n// Se é continuação, prepara contexto da conversa\nlet contextoConversa = '';\nif (dados.resposta_cliente) {\n  contextoConversa = `\n\n=== CONVERSA EM ANDAMENTO - INTERAÇÃO ${dados.total_interacoes || 2} ===\n\nÚLTIMA RESPOSTA DO CLIENTE:\n\"${dados.resposta_cliente}\"\n\nDADOS JÁ COLETADOS (NÃO PERGUNTE NOVAMENTE):\n- Idade: ${dados.idade_titular || 'ainda não informado'}\n- Vidas: ${dados.total_vidas || 'ainda não informado'}\n- Tipo: ${dados.tipo_contratacao || 'ainda não informado'}\n- Hospital: ${dados.hospital_preferencia || 'ainda não informado'}\n- Plano Atual: ${dados.plano_atual || 'ainda não informado'}\n- Preexistência: ${dados.tem_preexistencia || 'ainda não informado'}\n\nCONTINUE A CONVERSA NATURALMENTE.\nPergunte APENAS o que ainda falta.\nSeja breve e objetiva.\n`;\n}\n\n// Calcula a saudação correta baseada no horário\nconst hora = new Date().getHours();\nlet saudacao = '';\nif (hora >= 5 && hora < 12) {\n  saudacao = 'Bom dia ☀️';\n} else if (hora >= 12 && hora < 18) {\n  saudacao = 'Boa tarde 🌤️';\n} else {\n  saudacao = 'Boa noite 🌙';  // Das 18h até 4:59h da manhã\n}\n\nconst promptMariana = `Você é a Mariana, consultora especialista Bradesco Saúde com 10 anos de experiência.\n\nCOMPORTAMENTO:\n\nProfissional, cordial, humanizada, calorosa e empática.\n\nSempre pareça humana: reconheça o que o cliente diz, agradeça, adapte o tom.\n\nUse emojis com moderação (😊 ✅ 📌 💙).\n\nAdapte a saudação conforme horário: ${saudacao}\n\nTrate médicos como \"Dr(a).\".\n\nAssine sempre: — Mariana · Bradesco Saúde.\n\n💡 INTELIGÊNCIA CONTEXTUAL:\n- Se já cumprimentou antes, NÃO cumprimente novamente\n- Se o cliente parece apressado, seja mais objetiva\n- Se é médico/profissional de saúde, use linguagem mais técnica\n- Se demonstra preocupação com valores, reforce que o representante sênior tem autonomia para melhores condições\n- Sempre demonstre que entendeu o contexto e necessidade específica do cliente\n\nSe o cliente pedir para falar com humano, finalize com acolhimento e sinalize o encaminhamento imediato.\n\nSe o cliente demonstrar urgência, seja objetiva e direta; se demonstrar insegurança, reforce acolhimento e segurança.\n\nResponda no mesmo idioma do cliente (padrão: PT-BR).\n\nObjetivo principal: coletar todas as informações necessárias de forma completa, clara e humanizada, para ao final encaminhar o cliente a um representante comercial sênior da Bradesco, que terá autonomia para personalizar a proposta.\n\nAo abordar pré-existências e doenças graves, ser sempre extremamente delicada, acolhedora e humanizada, reforçando que a pergunta é apenas para garantir precisão e cuidado no plano.\n\nPLANOS BRADESCO (referência de posicionamento, não prometa valores):\n\nEfetivo: Básico, rede essencial\n\nFlex: Intermediário, rede ampliada\n\nIdeal: Digital, rede completa\n\nNacional: Cobertura Brasil todo\n\nNacional Plus e Premium: Planos top com mesma rede premium (Einstein/Sírio em SP, Copa Star/Samaritano no RJ)\n\nREDE HOSPITALAR SÃO PAULO (resumo):\n\nEfetivo: Beneficência Portuguesa\n\nFlex: + Santa Paula, São Camilo\n\nIdeal: + 9 de Julho, Santa Joana\n\nNacional: + Oswaldo Cruz, Santa Catarina\n\nNacional Plus: + Einstein, Sírio-Libanês\n\nPremium: + Copa Star, Samaritano, Vila Nova Star\n\n🏥 CONHECIMENTO ESPECIALIZADO - HOSPITAIS PREMIUM:\nVocê conhece PROFUNDAMENTE o Albert Einstein e Sírio-Libanês:\n- Einstein: referência mundial em medicina, torre de cirurgia robótica, centro de oncologia integrado, emergência 24h com protocolo de Manchester\n- Sírio-Libanês: excelência em alta complexidade, centro de transplantes, neurologia de ponta\n- Quando médicos perguntarem sobre esses hospitais, demonstre conhecimento detalhado\n- Saiba que médicos valorizam MUITO acesso a esses hospitais\n- Copa Star e Samaritano também são hospitais de altíssimo padrão no RJ\n\nHOSPITAIS RIO DE JANEIRO (resumo):\n\nCopa D'Or, Quinta D'Or (Nacional Plus/Premium)\n\nSamaritano, Barra D'Or (Nacional/Ideal)\n\nCasa de Saúde São José (Flex)\n\nCARÊNCIAS (informativas; não garanta exceções):\n\nUrgência/Emergência: 24 horas\n\nConsultas: 15 dias (sem congênere)\n\nExames simples: 15 dias (sem congênere)\n\nExames complexos: 180 dias\n\nInternações: 180 dias\n\nParto: 10 meses\n\nDoenças preexistentes: 24 meses\n\nREGRAS PRINCIPAIS:\n\nMínimo 3 vidas\n\nCNPJ/MEI ativo 6+ meses\n\nIdade limite 68 anos (acima disso, análise especial)\n\nRN até 30 dias sem carência (conforme regras)\n\nDADOS JÁ COLETADOS (NUNCA PERGUNTE NOVAMENTE):\n\nNome: ${dados.nome || 'Não informado'}\n\nIdade titular: ${dados.idade_titular || dados.idade || 'Não informado'}\n\nTelefone: ${dados.telefone || 'Não informado'}\n\nEmail: ${dados.email || 'Não informado'}\n\nLocal: ${dados.cidade || ''}/${dados.estado || ''}\n\nTotal de vidas (grupo): ${dados.vidas || 1}\n\nIdades dependentes: ${dados.idades_dependentes || 'Não informado'}\n\nMensagem inicial: ${dados.mensagem || 'Não informado'}\n\nINSTRUÇÕES IMPORTANTES (SIGA À RISCA):${contextoConversa}\n\n🚨 PRIORIDADE MÁXIMA - NUNCA PERGUNTE O QUE JÁ SABE: \n- SEMPRE leia TODA a seção \"DADOS JÁ COLETADOS\" antes de qualquer pergunta\n- ANALISE cada campo que já veio preenchido do formulário da landing page\n- NUNCA, JAMAIS pergunte novamente algo que já está respondido\n- Se já tem nome, idade, telefone, cidade - NÃO PERGUNTE DE NOVO\n- Trabalhe APENAS coletando o que REALMENTE falta\n- Antes de cada pergunta, verifique: \"Isso já foi informado?\" Se sim, PULE\n\nPORTABILIDADE/CARÊNCIAS: Se o cliente perguntar sobre portabilidade, explique de forma clara e empática:\n\n\"😊 Sobre PORTABILIDADE: Você pode migrar sem novas carências se cumprir as regras da ANS.\n\n📋 Condições:\n• Prazo de até 60 dias após perda do vínculo\n• Válido para demissão, aposentadoria ou cancelamento\n• Necessário ter novo vínculo empregatício ou contrato individual\n\n🔗 Canal Oficial: https://www.bradescoseguros.com.br/clientes/produtos/plano-saude/portabilidade-de-carencias\"\n\n✅ Após explicar sobre portabilidade, CONTINUE O ATENDIMENTO NORMALMENTE coletando TODOS os dados necessários\n✅ Explique que as informações são essenciais para verificar elegibilidade e encontrar o melhor plano\n✅ NÃO encerre o atendimento - CONTINUE até completar toda a qualificação\n\nCOLETA DE DADOS (PREENCHA O QUE ESTÁ FALTANDO):\n\n⚠️ ATENÇÃO MÁXIMA: Verifique SEMPRE o que já foi informado antes de perguntar!\n\nCampos-alvo: idade_titular, total_vidas, tipo_contratacao (Empresarial/MEI/Individual), idades_dependentes (se vidas > 1), hospital_preferencia, plano_atual, tem_preexistencia, doenca_grave, cnpj_meses_ativo (em meses) e tempo_plano_atual_meses (em meses).\n\nDependentes: se total_vidas > 1 e não houver idades, peça as IDADES de cada dependente (ex.: \"34, 12, 8\").\n\nEmpresa/MEI: se for CNPJ/MEI, pergunte sobre outros titulares/sócios/funcionários e as idades deles, caso relevante. Pergunte também há quanto tempo o CNPJ/MEI está ativo (em meses) e registre em cnpj_meses_ativo.\n\nPlano atual: se houver, pergunte há quantos meses mantém o plano atual e registre em tempo_plano_atual_meses. Se não tiver, registre plano_atual = 'Não possui' e deixe tempo_plano_atual_meses em branco.\n\nPreexistências: confirme com tato se há condição de saúde preexistente; se mencionar algo grave (ex.: câncer, diálise, transplante), marque \"doenca_grave\": \"sim\". Sempre com acolhimento, reforçando cuidado.\n\n🏥 HOSPITAIS DE PREFERÊNCIA:\n- Se o cliente mencionar Einstein, Sírio, Copa Star, Samaritano, demonstre conhecimento\n- Explique que esses hospitais estão nos planos Nacional Plus e Premium\n- Se for médico, reforce os benefícios de ter acesso a esses centros de excelência\n- Mencione que a Bradesco tem parceria sólida com essas instituições\n\n📝 ESTRATÉGIA DE COLETA:\n- Faça NO MÁXIMO 2 perguntas por vez\n- Seja NATURAL - não pareça um questionário robótico\n- Adapte as perguntas ao contexto da conversa\n- Se perceber que o cliente é médico, use linguagem mais técnica\n- Se perceber urgência, seja mais objetiva e direta\n\nNÃO invente dados; se houver conflito entre informações do cliente e as já coletadas, peça confirmação de forma breve.\n\n🎯 CHECKLIST MENTAL ANTES DE CADA PERGUNTA:\n1. Essa informação já foi fornecida? ✓ Se sim, NÃO pergunte\n2. Estou repetindo algo do formulário? ✓ Se sim, NÃO pergunte\n3. Posso deduzir isso de outras informações? ✓ Se sim, NÃO pergunte\n4. É realmente necessário para a cotação? ✓ Se não, NÃO pergunte\n\nOBJETIVO PRINCIPAL: Coletar os dados para encaminhar ao representante SÊNIOR que fará os levantamentos de valores e personalização.\n\nAo concluir, diga: \"Perfeito! Tenho tudo que preciso. Vou encaminhar você agora para nosso representante comercial sênior.\"\n\nSe perguntarem \"por quê sênior?\": \"Porque tem maior autonomia para personalizar a proposta e buscar as melhores condições para o seu perfil.\"\n\nCRITÉRIO DE CONCLUSÃO:\n\nMarque \"qualificacao_completa\": true apenas quando tiver, no mínimo: idade_titular, total_vidas e tipo_contratacao.\n\nSe total_vidas > 1, preferencialmente colete \"idades_dependentes\" antes de concluir.\n\nDUVIDAS BUSQUE INFORMAÇÕES OFICIAIS NO SITE DA BRADESCO SAÚDE:\n📱 @https://bradescomedicos.com.br - Portal completo com informações detalhadas\n📱 @https://www.bradescoseguros.com.br/clientes/produtos/plano-saude - Informações sobre planos e coberturas\n🔍 Sempre que tiver dúvida específica, consulte mentalmente essas fontes oficiais\n💡 Você tem acesso a todo conhecimento atualizado da Bradesco Saúde\n⚡ Responda com confiança baseada em informações oficiais e atualizadas\n\nEXPERTISE COMPROVADA:\n- Você tem 10 anos de experiência e conhece TODOS os detalhes dos planos\n- Já atendeu milhares de médicos e profissionais de saúde\n- Conhece pessoalmente a rede credenciada e diferenciais de cada hospital\n- Tem relacionamento direto com a área técnica da Bradesco\n- É especialista certificada em planos para profissionais liberais e empresas médicas\n\nESTILO DE RESPOSTA:\n\nMensagens curtas, claras e acolhedoras.\n\nEvite parágrafos longos. Use frases diretas, com 1–2 perguntas por envio.\n\nNunca envie informações sigilosas; não prometa prazos ou preços.\n\nSAÍDA OBRIGATÓRIA:\n\nSEMPRE responda exatamente no formato abaixo. NADA antes ou depois. NENHUM outro texto fora das seções.\n\nMENSAGEM:\n[Sua mensagem natural e empática para o cliente, com no máximo duas perguntas objetivas]\n\nDADOS_EXTRAIDOS:\n{\n\"eh_portabilidade\": false,\n\"idade_titular\": \"[PREENCHA COM: ${dados.idade_titular || dados.idade || ''} ou deixe vazio se não souber]\",\n\"total_vidas\": \"[PREENCHA COM: ${dados.vidas || '1'}]\",\n\"idades_dependentes\": \"[PREENCHA COM: ${dados.idades_dependentes || ''} ou deixe vazio]\",\n\"outros_titulares\": \"\",\n\"idades_outros_titulares\": \"\",\n\"tipo_contratacao\": \"[PREENCHA COM: ${dados.tipo_contratacao || ''} ou deixe vazio se ainda não souber]\",\n\"cnpj_meses_ativo\": \"[PREENCHA COM: ${dados.cnpj_meses_ativo || ''} ou deixe vazio]\",\n\"hospital_preferencia\": \"[PREENCHA COM: ${dados.hospital_preferencia || ''} ou deixe vazio]\",\n\"plano_atual\": \"[PREENCHA COM: ${dados.plano_atual || ''} ou deixe vazio]\",\n\"tempo_plano_atual_meses\": \"[PREENCHA COM: ${dados.tempo_plano_atual_meses || ''} ou deixe vazio]\",\n\"tem_preexistencia\": \"[PREENCHA COM: ${dados.tem_preexistencia || ''} ou deixe vazio]\",\n\"doenca_grave\": \"[PREENCHA COM: ${dados.doenca_grave || ''} ou deixe vazio]\",\n\"qualificacao_completa\": false\n}\n\n🚨 CRÍTICO: Substitua os valores entre colchetes [PREENCHA COM:...] pelos valores reais da seção DADOS JÁ COLETADOS. NÃO retorne os colchetes nem as instruções, apenas os valores.`;\n\nreturn [{\n  ...dados,\n  prompt_mariana: promptMariana\n}];"
+      },
+      "id": "cad71fca-1fbd-4035-9dfe-e3b2571ba59a",
+      "name": "Preparar Prompt Mariana",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -6320,
+        -256
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://automacao-abmix-evo https://automacao-abmix-evolution-api.2ckrtx.easypanel.host/chat/presencelution-api.2ckrtx.easypanel.host/chat/updatePresence/Bradesco",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "=C52FDF6831B2-439F-9F6A-C9E68962A705"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $json.telefone_e164 || ('+'+($json.key.remoteJid||'').replace(/@.*/,'')) }}\",\n  \"presence\": \"composing\",\n  \"delay\": 1500\n}\n",
+        "options": {}
+      },
+      "id": "f8515eab-e8b9-49be-9e5c-2b024ba6de8a",
+      "name": "💬 Status Digitando ON",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        -6128,
+        -96
+      ],
+      "disabled": true,
+      "onError": "continueRegularOutput",
+      "notes": "\n}\n"
+    },
+    {
+      "parameters": {
+        "jsCode": "const msg = $json.mensagem_mariana || '';\nconst len = msg.length;\n\n// calcula delay baseado no tamanho da mensagem\nlet delay = len < 80 ? 1 : len > 300 ? 4 : 2;\ndelay += Math.random() < 0.5 ? 0 : 1;\n\n// retorna no formato certo\nreturn [{\n  json: {\n    ...$json,\n    delay_segundos: delay\n  }\n}];\n"
+      },
+      "id": "9f3ea228-858f-4e1d-9ff5-cbf778fa2ad5",
+      "name": "Delay Humano OpenAI",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -5840,
+        -64
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://automacao-abmix-evolution-api.2ckrtx.easypanel.host/message/status/Bradesco",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "=C52FDF6831B2-439F-9F6A-C9E68962A705"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $json.telefone_e164 || ('+'+($json.key.remoteJid||'').replace(/@.*/,'')) }}\",\n  \"presence\": \"available\"\n}",
+        "options": {}
+      },
+      "id": "6ee13264-dfaa-4a1a-8ae3-c134f63e63cb",
+      "name": "💬 Status Digitando OFF",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        -6176,
+        -944
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "9782bf59-6f57-438d-a0ca-263d38eb1467",
+              "leftValue": " {{$json.mensagem_mariana_loop}}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "07dd1821-5d81-4c3d-ac99-0e795b2ef476",
+      "name": "IF Mensagem Mariana?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -5952,
+        -1120
+      ]
+    },
+    {
+      "parameters": {
+        "amount": "={{$json.delay_segundos}}"
+      },
+      "id": "5787f859-16df-44fc-8817-9c6f39e7928b",
+      "name": "Wait Inicial",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -5792,
+        -288
+      ],
+      "webhookId": "006196d5-d802-4c24-ac7c-0e13cafb46c9"
+    },
+    {
+      "parameters": {
+        "jsCode": "const msg = $json.mensagem || '';\nconst len = msg.length;\nlet delay = len < 80 ? 1 : len > 300 ? 4 : 2;\ndelay += Math.random() < 0.5 ? 0 : 1;\nreturn [{...$json, delay_segundos: delay}];"
+      },
+      "id": "a972324f-c916-42ee-bf0a-8b8c6c629e09",
+      "name": "Delay Humano Inicial",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -6032,
+        -272
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://automacao-abmix-evolution-api.2ckrtx.easypanel.host/message/sendText/Bradesco",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "=C52FDF6831B2-439F-9F6A-C9E68962A705"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{$json.telefone_e164}}\",\n  \"text\": \"Olá {{$json.nome}}!\\n\\nSou a Mariana, consultora especialista Bradesco Saúde.\\n\\nRecebi sua solicitação! 😊\\n\\nVou fazer algumas perguntinhas rápidas para conseguir as melhores opções.\\n\\nEnquanto isso, se tiver alguma dúvida específica, fique à vontade para perguntar.\\n\\n— Mariana · Bradesco Saúde\"\n}",
+        "options": {}
+      },
+      "id": "f5ae1391-e5a2-4f12-a2e7-9b31ee3f80e8",
+      "name": "WhatsApp Resposta Inicial",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        -6544,
+        -288
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "try {\n  let dados = {};\n  \n  // Tenta pegar body primeiro, senão pega o json direto\n  const raw = $input.all()[0].json;\n  if (typeof raw === 'string') {\n    dados = JSON.parse(raw);\n  } else if (raw.body) {\n    dados = typeof raw.body === 'string' ? JSON.parse(raw.body) : raw.body;\n  } else {\n    dados = raw;\n  }\n\n  const limparTelefone = (telefone) => { if (!telefone) return ''; const limpo = String(telefone).replace(/\\D/g, '').slice(-11); return /^\\d{11}$/.test(limpo) ? limpo : ''; };\n  const calcularIdade = (nasc) => { if (!nasc) return ''; let d; if (/^\\d{2}\\/\\d{2}\\/\\d{4}$/.test(String(nasc))) { const [dd, mm, yyyy] = String(nasc).split('/').map(n=>parseInt(n,10)); d = new Date(yyyy, mm-1, dd); } else { d = new Date(nasc);} if (isNaN(d.getTime())) return ''; const h=new Date(); let idade=h.getFullYear()-d.getFullYear(); const m=h.getMonth()-d.getMonth(); if(m<0||(m===0&&h.getDate()<d.getDate())) idade--; return idade>0?String(idade):''; };\n  const validarEmail = (email) => { if (!email) return ''; const re = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/; return re.test(String(email).trim()) ? String(email).trim() : ''; };\n\n  const toBucket = (raw) => { if (raw >= 70) return { classificacao: 'Alta', score: 80 }; if (raw >= 50) return { classificacao: 'Média', score: 60 }; if (raw >= 30) return { classificacao: 'Baixa', score: 40 }; return { classificacao: 'Muito Baixa', score: 20 }; };\n\n  const calcularScore = (d) => { let score = 0; if (d.nome && String(d.nome).trim().length > 2) score += 20; if (d.email && validarEmail(d.email)) score += 20; if ((d.telefone && limparTelefone(d.telefone)) || (d.telefone_limpo && limparTelefone(d.telefone_limpo))) score += 20; if (d.estado && String(d.estado).trim().length > 1) score += 10; if (d.cidade && String(d.cidade).trim().length > 1) score += 10; const totalVidas = parseInt(d.total_vidas ?? d.vidas ?? 0, 10) || 0; if (totalVidas > 0) score += 10; if (d.mensagem && String(d.mensagem).trim().length > 10) score += 10; const idade = parseInt(d.idade_titular ?? d.idade ?? 0, 10) || 0; if (idade >= 60 && idade <= 68) score -= 15; else if (idade >= 69) score -= 35; const preexist = String(d.tem_preexistencia || '').toLowerCase(); if (preexist.startsWith('sim')) score -= 20; const grave = String(d.doenca_grave || '').toLowerCase(); if (grave.startsWith('sim')) score -= 35; if (totalVidas > 0 && totalVidas < 3) score -= 15; const tipo = String(d.tipo_contratacao || '').toLowerCase(); if ((tipo.includes('empres') || tipo.includes('mei')) && totalVidas > 0 && totalVidas < 3) score -= 10; const cnpjMeses = parseInt(d.cnpj_meses_ativo ?? 0, 10) || 0; if ((tipo.includes('empres') || tipo.includes('mei')) && cnpjMeses > 0 && cnpjMeses < 6) score -= 25; const plano = String(d.plano_atual || '').trim(); const tempoPlanoMeses = parseInt(d.tempo_plano_atual_meses ?? 0, 10) || 0; if (!plano || plano.toLowerCase() === 'não possui' || plano.toLowerCase() === 'nao possui') { score += 10; } else if (tempoPlanoMeses >= 24) { score += 15; } const score_bruto = Math.max(0, Math.min(100, score)); const bucket = toBucket(score_bruto); return { score_bruto, score: bucket.score, classificacao: bucket.classificacao }; };\n\n  const telefoneLimpo = limparTelefone(dados.telefone || dados.from);\n  const idadeCalculada = calcularIdade(dados.nascimento);\n  const emailValidado = validarEmail(dados.email);\n  const bucket = calcularScore(dados);\n\n  // Emoji para classificação inicial\n  const classificacao_inicial_emoji = bucket.classificacao === 'Alta' ? '🔥 Alta' : (bucket.classificacao === 'Média' ? '🙂 Média' : (bucket.classificacao === 'Baixa' ? '❄️ Baixa' : '❄️ Muito Baixa'));\n\n  return [{\n    lead_id: `lead_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`,\n    nome: String(dados.nome || '').trim(),\n    email: emailValidado,\n    telefone: String(dados.telefone || ''),\n    telefone_limpo: telefoneLimpo,\n    telefone_e164: telefoneLimpo ? `+55${telefoneLimpo}` : '',\n    nascimento: String(dados.nascimento || ''),\n    estado: String(dados.estado || '').trim(),\n    cidade: String(dados.cidade || '').trim(),\n    vidas: parseInt(dados.vidas, 10) || 1,\n    total_vidas: parseInt(dados.total_vidas ?? dados.vidas ?? 0, 10) || (parseInt(dados.vidas, 10) || 1),\n    mensagem: String(dados.mensagem || '').trim(),\n    timestamp: new Date().toISOString(),\n\n    idade: idadeCalculada,\n    idade_titular: idadeCalculada,\n\n    cnpj_meses_ativo: dados.cnpj_meses_ativo ?? '',\n    tempo_plano_atual_meses: dados.tempo_plano_atual_meses ?? '',\n    tipo_contratacao: dados.tipo_contratacao ?? (dados.tipo || ''),\n    tem_preexistencia: dados.tem_preexistencia ?? '',\n    doenca_grave: dados.doenca_grave ?? '',\n    plano_atual: dados.plano_atual ?? '',\n\n    status: 'Novo - Aguardando IA',\n    classificacao: bucket.classificacao,\n    classificacao_inicial: bucket.classificacao,\n    classificacao_inicial_emoji,\n\n    score_bruto: bucket.score_bruto,\n    score: bucket.score,\n    score_inicial: bucket.score,\n\n    remarketing_data: '',\n    telefone_valido: Boolean(telefoneLimpo),\n    telefone_invalido: !telefoneLimpo,\n    dados_validos: Boolean(telefoneLimpo && String(dados.nome || '').trim().length > 2)\n  }];\n\n} catch (error) {\n  return [{\n    lead_id: `lead_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`,\n    nome: 'Erro no processamento',\n    email: '',\n    telefone: '',\n    telefone_limpo: '',\n    telefone_e164: '',\n    nascimento: '',\n    estado: '',\n    cidade: '',\n    vidas: 1,\n    mensagem: 'Erro ao processar dados iniciais',\n    timestamp: new Date().toISOString(),\n    idade: '',\n    idade_titular: '',\n    status: 'Erro - Dados Inválidos',\n    classificacao: 'Muito Baixa',\n    classificacao_inicial: 'Muito Baixa',\n    classificacao_inicial_emoji: '❄️ Muito Baixa',\n    score: 0,\n    score_inicial: 0,\n    score_bruto: 0,\n    remarketing_data: '',\n    telefone_valido: false,\n    telefone_invalido: true,\n    dados_validos: false,\n    erro_processamento: error.message\n  }];\n}"
+      },
+      "id": "a3470b22-5d5f-4235-95ab-d0fc67cff621",
+      "name": "Processar Dados Iniciais",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        -7056,
+        -256
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $getWorkflowStaticData('global');\ndata.execucoesAtivas = (data.execucoesAtivas || 0) + 1;\nif (data.execucoesAtivas > 30) {\n  return [{ fila: true, motivo: 'Muitas execuções, tente novamente' }];\n}\nreturn $input.all();"
+      },
+      "id": "40beb332-f4b5-46e6-847f-7b408f441680",
+      "name": "Proteção Contra Pico",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        -7248,
+        -272
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json.telefone_e164}}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "c9a331db-d194-4b89-a573-f7c5d42c900f",
+      "name": "Telefone Válido? (Inicial)",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        -6784,
+        -256
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "amount": "={{$json.delay_segundos}}"
+      },
+      "id": "06e4b02f-443a-4268-a9c4-69d2cc91703c",
+      "name": "Wait OpenAI",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -6544,
+        -544
+      ],
+      "webhookId": "f3d891e9-5940-4963-b580-3fe1ece0e2d4"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://automacao-abmix-evolution-api.2ckrtx.easypanel.host/message/sendText/Bradesco",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "=C52FDF6831B2-439F-9F6A-C9E68962A705"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{$node[\"Processar Dados Iniciais\"].json.telefone_e164}}"
+            },
+            {
+              "name": "text",
+              "value": "={{$json.mensagem_mariana_loop}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6322b48c-63e1-49ed-8819-6608712ff527",
+      "name": "WhatsApp Enviar Mariana",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        -5648,
+        -1168
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $getWorkflowStaticData('global');\ndata.execucoesAtivas = (data.execucoesAtivas || 0) - 1;\nreturn $input.all();"
+      },
+      "id": "d96eb006-83e3-473a-aed5-cbed5b4506e1",
+      "name": "🔻 Proteção Contra Pico - Decremento",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -5424,
+        -896
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "whatsapp-webhook-evolution",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "375630be-fe33-4a44-a6f5-22a510f57db9",
+      "name": "📱 Webhook Evolution Resposta",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -5536,
+        -352
+      ],
+      "webhookId": "resposta-cliente-whatsapp"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "condicao-1",
+              "leftValue": "={{$json.body.data.key.fromMe}}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "equal"
+              }
+            },
+            {
+              "id": "condicao-2",
+              "leftValue": "={{$json.body.data.status}}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "isEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "de5ba30c-5f7f-49a8-a51e-867021424645",
+      "name": "Ignorar callbacks",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -5472,
+        -112
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $json;\n\n// Identifica se é texto ou áudio\nconst isAudio = data.messageType === 'audioMessage' || \n                data.audio || \n                data.audioUrl || \n                data.body?.data?.message?.audioMessage;\n\nconst telefone = data.from?.replace(/[^0-9]/g, '') || \n                 data.body?.data?.key?.remoteJid?.replace(/[^0-9]/g, '') || '';\n\nreturn [{\n  ...data,\n  tipo_mensagem: isAudio ? 'audio' : 'texto',\n  telefone_limpo: telefone.slice(-11),\n  telefone_e164: '+55' + telefone.slice(-11),\n  precisa_transcrever: isAudio,\n  audio_url: data.audioUrl || data.audio?.url || data.body?.data?.message?.audioMessage?.url || '',\n  texto_mensagem: data.text || data.message || data.body?.data?.message?.conversation || data.body?.data?.message?.extendedTextMessage?.text || ''\n}];"
+      },
+      "id": "d92faec7-b716-47e9-8371-eb1b06471dcc",
+      "name": "🔍 Identificar Tipo Mensagem",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -5248,
+        -448
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://automacao-abmix-evolution-api.2ckrtx.easypanel.host/message/sendText/Bradesco",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "C52FDF6831B2-439F-9F6A-C9E68962A705"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{$json.telefone_e164}}"
+            },
+            {
+              "name": "text",
+              "value": "🎧 Recebi seu áudio! Deixa eu ouvir com atenção..."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3a942f79-9b53-4f74-932b-d232c8c42b04",
+      "name": "✅ Confirmar Áudio Recebido",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        -4720,
+        -400
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{$json.audio_url}}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "id": "631ac379-0521-4145-b15b-5c119e299638",
+      "name": "📥 Baixar Áudio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        -4528,
+        -416
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "id": "37642474-a9fb-491f-904f-6564371df920",
+      "name": "🎤 Transcrever Áudio OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -4352,
+        -448
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "xCcTWQlpbwY6f4JY",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const audioTranscrito = $json.text || $json.transcription || '';\nconst dadosOriginais = $input.item(0).json;\n\nreturn [{\n  ...dadosOriginais,\n  texto_mensagem: audioTranscrito,\n  transcricao_completa: true\n}];"
+      },
+      "id": "ee4cbded-63c0-4f60-acf7-f0215116de8f",
+      "name": "📝 Processar Transcrição",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -4160,
+        -448
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "d894ccdf-6e76-43ef-a58a-edb6439a9084",
+      "name": "🔀 Merge Audio + Texto",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        -4064,
+        -288
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1bGuTWcNCMjTed91deAZo8eGwy38tqWh8C7rU6PPG27M",
+          "mode": "list",
+          "cachedResultName": "Leads_Bruto_Bradesco",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bGuTWcNCMjTed91deAZo8eGwy38tqWh8C7rU6PPG27M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Leads_Brutos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bGuTWcNCMjTed91deAZo8eGwy38tqWh8C7rU6PPG27M/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": " Telefone",
+              "lookupValue": "=$json.telefone_limpo"
+            }
+          ]
+        },
+        "combineFilters": "AND",
+        "options": {}
+      },
+      "id": "0172d2ac-f243-45e0-951c-25b3a583871e",
+      "name": "🧠 Buscar Histórico do Lead",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        -3840,
+        -480
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "6bd1TECz7NA8rZx3",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "c1f54e14-2808-4dec-8e10-85f9be1177a0",
+      "name": "🔗 Merge Resposta + Histórico",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        -3648,
+        -304
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Add a new field called 'myNewField' to the JSON of the item\n$input.item.json.myNewField = 1;\n\nreturn $input.item;"
+      },
+      "id": "d6515a50-5a66-4c09-a2b8-26d2b23eae13",
+      "name": "🔄 Mesclar Dados Inteligente",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3456,
+        -304
+      ],
+      "notesInFlow": false,
+      "alwaysOutputData": false,
+      "executeOnce": false,
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "jsCode": "const dados = $input.all()[0].json;\n\n// Resposta já vem no campo correto\nconst textoResposta = dados.resposta_cliente || '';\n\n// Extração automática APENAS se campo ainda vazio\nlet dadosExtraidos = {...dados};\n\n// IDADE (só se não tiver)\nif (!dadosExtraidos.idade_titular) {\n  const idadeMatch = textoResposta.match(/(\\d+)\\s*anos?/i);\n  if (idadeMatch) dadosExtraidos.idade_titular = idadeMatch[1];\n}\n\n// VIDAS (só se não tiver ou for 1)\nif (!dadosExtraidos.total_vidas || dadosExtraidos.total_vidas === 1) {\n  const vidasMatch = textoResposta.match(/(\\d+)\\s*(vidas?|pessoas?|dependentes?)/i);\n  if (vidasMatch) dadosExtraidos.total_vidas = vidasMatch[1];\n}\n\n// TIPO CONTRATAÇÃO (só se não tiver)\nif (!dadosExtraidos.tipo_contratacao) {\n  if (/empresa|mei|cnpj/i.test(textoResposta)) {\n    dadosExtraidos.tipo_contratacao = 'Empresarial';\n  } else if (/famili|família/i.test(textoResposta)) {\n    dadosExtraidos.tipo_contratacao = 'Familiar';\n  } else if (/individual/i.test(textoResposta)) {\n    dadosExtraidos.tipo_contratacao = 'Individual';\n  }\n}\n\n// IDADES DEPENDENTES (só se não tiver e vidas > 1)\nif (!dadosExtraidos.idades_dependentes && parseInt(dadosExtraidos.total_vidas || 0) > 1) {\n  const todasIdades = textoResposta.match(/\\d{1,2}\\s*anos/gi);\n  if (todasIdades && todasIdades.length > 1) {\n    dadosExtraidos.idades_dependentes = todasIdades.map(i => i.match(/\\d+/)[0]).join(', ');\n  }\n}\n\n// HOSPITAL (só se não tiver)\nif (!dadosExtraidos.hospital_preferencia) {\n  if (/einstein/i.test(textoResposta)) dadosExtraidos.hospital_preferencia = 'Einstein';\n  else if (/sírio|sirio/i.test(textoResposta)) dadosExtraidos.hospital_preferencia = 'Sírio-Libanês';\n}\n\n// PLANO ATUAL (só se não tiver)\nif (!dadosExtraidos.plano_atual) {\n  if (/unimed/i.test(textoResposta)) dadosExtraidos.plano_atual = 'Unimed';\n  else if (/sulamerica|sulamérica/i.test(textoResposta)) dadosExtraidos.plano_atual = 'SulAmérica';\n  else if (/não tenho|nao tenho|sem plano/i.test(textoResposta)) dadosExtraidos.plano_atual = 'Não possui';\n}\n\n// PREEXISTÊNCIA (só se não tiver)\nif (!dadosExtraidos.tem_preexistencia) {\n  if (/sim/i.test(textoResposta) && /doença|preexist/i.test(textoResposta)) {\n    dadosExtraidos.tem_preexistencia = 'sim';\n  }\n}\n\n// DOENÇA GRAVE (só se não tiver)\nif (!dadosExtraidos.doenca_grave) {\n  if (/cancer|câncer|diabetes|hipertens/i.test(textoResposta)) {\n    dadosExtraidos.tem_preexistencia = 'sim';\n    if (/cancer|câncer|transplante|dialise/i.test(textoResposta)) {\n      dadosExtraidos.doenca_grave = 'sim';\n    }\n  }\n}\n\nreturn [{\n  json: dadosExtraidos\n}];\nreturn [{\n  json: {\n    ...dadosExtraidos,\n    telefone_e164: dadosExtraidos.telefone_e164  // adicione esta linha\n  }\n}];"
+      },
+      "id": "0f450bed-3464-4027-b2d8-267359c066e7",
+      "name": "📥 Processar Resposta Cliente",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -4992,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "combineOperation": "any"
+          },
+          "conditions": [
+            {
+              "id": "condicao-1",
+              "leftValue": "={{$json.idade_titular}}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            },
+            {
+              "id": "condicao-2",
+              "leftValue": "={{$json.total_vidas}}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            },
+            {
+              "id": "condicao-3",
+              "leftValue": "={{$json.tipo_contratacao}}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "3215515f-d841-4b33-b8d1-fa23ba73dcd9",
+      "name": "✅ Dados Completos?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -4848,
+        -320
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{$json.total_interacoes || 1}}",
+              "operation": "largerEqual",
+              "value2": 8
+            }
+          ]
+        }
+      },
+      "id": "1464b247-62c1-4c9f-8917-131eb5e1dee6",
+      "name": "🔄 Limite de Interações?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -4656,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const dados = $input.all()[0].json;\n\n// Recalcula score final\nconst calcularScoreFinal = (d) => {\n  let score = 0;\n  \n  // Dados básicos\n  if (d.nome) score += 20;\n  if (d.email) score += 20;\n  if (d.telefone_limpo) score += 20;\n  if (d.estado) score += 10;\n  if (d.cidade) score += 10;\n  \n  const totalVidas = parseInt(d.total_vidas || d.vidas || 0, 10);\n  if (totalVidas > 0) score += 10;\n  \n  // Qualificação completa\n  if (d.idade_titular) score += 10;\n  if (d.tipo_contratacao) score += 10;\n  if (d.hospital_preferencia) score += 5;\n  \n  // Penalidades\n  const idade = parseInt(d.idade_titular || 0, 10);\n  if (idade >= 60 && idade <= 68) score -= 15;\n  else if (idade >= 69) score -= 35;\n  \n  if (String(d.tem_preexistencia || '').toLowerCase().startsWith('sim')) score -= 20;\n  if (String(d.doenca_grave || '').toLowerCase().startsWith('sim')) score -= 35;\n  \n  if (totalVidas > 0 && totalVidas < 3) score -= 15;\n  \n  const tipo = String(d.tipo_contratacao || '').toLowerCase();\n  if ((tipo.includes('empres') || tipo.includes('mei')) && totalVidas < 3) score -= 10;\n  \n  const cnpjMeses = parseInt(d.cnpj_meses_ativo || 0, 10);\n  if ((tipo.includes('empres') || tipo.includes('mei')) && cnpjMeses < 6) score -= 25;\n  \n  const plano = String(d.plano_atual || '').trim();\n  const tempoPlanoMeses = parseInt(d.tempo_plano_atual_meses || 0, 10);\n  if (!plano || plano.toLowerCase() === 'não possui') {\n    score += 10;\n  } else if (tempoPlanoMeses >= 24) {\n    score += 15;\n  }\n  \n  score = Math.max(0, Math.min(100, score));\n  \n  // Classificação por bucket\n  let classificacao;\n  if (score >= 70) classificacao = 'Alta';\n  else if (score >= 50) classificacao = 'Média';\n  else if (score >= 30) classificacao = 'Baixa';\n  else classificacao = 'Muito Baixa';\n  \n  return { score, classificacao };\n};\n\nconst scoreFinal = calcularScoreFinal(dados);\n\n// Classificação com emoji\nlet classificacao_final_emoji = '';\nif (scoreFinal.classificacao === 'Alta') classificacao_final_emoji = '🔥 Alta';\nelse if (scoreFinal.classificacao === 'Média') classificacao_final_emoji = '🙂 Média';\nelse if (scoreFinal.classificacao === 'Baixa') classificacao_final_emoji = '❄️ Baixa';\nelse classificacao_final_emoji = '❄️ Muito Baixa';\n\nreturn [{\n  ...dados,\n  score_final: scoreFinal.score,\n  classificacao_final: scoreFinal.classificacao,\n  classificacao_final_emoji: classificacao_final_emoji,\n  status: 'Qualificado - Pronto para Distribuição',\n  qualificacao_completa: true,\n  data_conclusao: new Date().toISOString(),\n  pronto_para_rodizio: true\n}];"
+      },
+      "id": "2de7b021-6bb5-4ba3-98d4-fb7726d90f40",
+      "name": "🎯 Finalizar Qualificação",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -5024,
+        -496
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const dados = $input.all()[0].json;\n\nreturn [{\n  ...dados,\n  status: 'Remarketing - Limite Atingido',\n  tentativas_bot: 8,\n  precisa_remarketing: true,\n  ultima_interacao: new Date().toISOString(),\n  encaminhar_remarketing: true\n}];"
+      },
+      "id": "ab9b1f8c-5b80-4569-b92e-8083594d5482",
+      "name": "⏰ Marcar para Remarketing",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -4512,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const c = ($json.cidade || '').trim();\nconst uf = ($json.estado || '').trim();\n\nreturn [{\n  json: {\n    ...$json,\n    Cidade_Estado: c && uf ? `${c}/${uf}` : ''\n  }\n}];"
+      },
+      "id": "00ff528c-6438-4ba4-a39d-b6eb0b9faabd",
+      "name": "↔️ Montar Cidade_Estado",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -4848,
+        -592
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "10jKc1GdqYdgEp2SBIyf6uYq8-kuMQTkAn7yd01yfNWw",
+          "mode": "list",
+          "cachedResultName": "Leads-Qualificados_Bradesco",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10jKc1GdqYdgEp2SBIyf6uYq8-kuMQTkAn7yd01yfNWw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Leads-Qualificados_Bradesco",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10jKc1GdqYdgEp2SBIyf6uYq8-kuMQTkAn7yd01yfNWw/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Lead_ID",
+              "displayName": "Lead_ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Telefone",
+              "displayName": "Telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Data_Nascimento",
+              "displayName": "Data_Nascimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Cidade",
+              "displayName": "Cidade",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Numero_Vidas",
+              "displayName": "Numero_Vidas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Idade_Calculada",
+              "displayName": "Idade_Calculada",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Classificacao_Inicial",
+              "displayName": "Classificacao_Inicial",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Score_Inicial",
+              "displayName": "Score_Inicial",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Data_Hora",
+              "displayName": "Data_Hora",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Mensagem",
+              "displayName": "Mensagem",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Mensagem",
+              "displayName": "Mensagem",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Contratacao",
+              "displayName": "Contratacao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Hospital_Preferencia",
+              "displayName": "Hospital_Preferencia",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Plano_Atual",
+              "displayName": "Plano_Atual",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Preexistencia",
+              "displayName": "Preexistencia",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Doenca_Grave",
+              "displayName": "Doenca_Grave",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Plano_Sugerido",
+              "displayName": "Plano_Sugerido",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Vendedor_Nome",
+              "displayName": "Vendedor_Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Observacoes_Mariana",
+              "displayName": "Observacoes_Mariana",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ultima_Atividade",
+              "displayName": "Ultima_Atividade",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Tentativas_Remarketing",
+              "displayName": "Tentativas_Remarketing",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Remarketing_Data",
+              "displayName": "Remarketing_Data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "5b497ae3-2118-470e-9032-35936c8b01bc",
+      "name": "📊 Append Qualificados",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        -4640,
+        -672
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "6bd1TECz7NA8rZx3",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "{{$env.N8N_WEBHOOK_URL}}/webhook/acionar-reengajamento",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"lead_id\": \"{{$json.lead_id}}\",\n  \"nome\": \"{{$json.nome}}\",\n  \"telefone_e164\": \"{{$json.telefone_e164}}\",\n  \"status\": \"Aguardando_5min\",\n  \"timestamp\": \"{{$now.toISO()}}\",\n  \"tentativas_atuais\": {{$json.total_interacoes || 0}}\n}",
+        "options": {}
+      },
+      "id": "889f2a94-cbde-426a-91ad-ca0256b40ca0",
+      "name": "🔗 Acionar P5 Reengajamento",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        -2192,
+        -800
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://automacao-abmix-evolution-api.2ckrtx.easypanel.host/message/sendText/Bradesco",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "C52FDF6831B2-439F-9F6A-C9E68962A705"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "5511996163900"
+            },
+            {
+              "name": "text",
+              "value": "=LEAD LIMITE ATINGIDO\n\n{{$json.nome}}\n{{$json.telefone_e164}}\n\n8 tentativas sem resposta\nAção manual necessária\n\nID: {{$json.lead_id}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2c9a19b8-607b-49e0-8a44-5a9d32208394",
+      "name": "📢 Notificar Supervisor",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        -4272,
+        -48
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://automacao-abmix-evolution-api.2ckrtx.easypanel.host/message/sendText/Bradesco",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "C52FDF6831B2-439F-9F6A-C9E68962A705"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "+5511996163900"
+            },
+            {
+              "name": "text",
+              "value": "=Olá ROD 👋\nBoa {{$now.hour() < 12 ? 'dia' : ($now.hour() < 18 ? 'tarde' : 'noite')}}, como você está?\n🧭 Acabamos de enviar uma mensagem de remarketing para o lead {{$json['Nome Completo'] || $json.nome}}.\nFique de olho que te aviso sempre que houver novidade 🙏"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "91da5fac-35b9-46eb-bbf1-f816cd06eb6c",
+      "name": "WhatsApp ROD Remarketing",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        -4144,
+        144
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Prepara dados para P5 Reengajamento\nconst dados = $input.all()[0].json;\n\nreturn [{\n  json: {\n    Lead_ID: dados.lead_id,\n    Nome_Completo: dados.nome,\n    'Telefone com DDD': dados.telefone_limpo,\n    telefone_e164: dados.telefone_e164,\n    Idade_Calculada: dados.idade_titular,\n    'Número de Vidas': dados.total_vidas,\n    ' Classificacao_Inicial': dados.classificacao_final || dados.classificacao,\n    ' Score_Inicial': dados.score_final || dados.score,\n    Status: 'Aguardando_5min',\n    Tentativas_Reengajamento: 0,\n    origem_workflow: 'P1_Qualificacao',\n    timestamp_ponte: $now.toISO()\n  }\n}];"
+      },
+      "id": "2de870cb-20b8-4c7b-87fc-37c643be7747",
+      "name": "🔗 Ponte → P5 Reengajamento",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2272,
+        -560
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\"ok\": true}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "48c6e3ff-a0d3-4494-a7c6-2d68d7941bce",
+      "name": "Respond to Webhook1",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "position": [
+        -7168,
+        352
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$json.precisa_transcrever}}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "77260d32-dd1d-4eb2-b892-bfde901b6635",
+      "name": "É Áudio?1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -5264,
+        -160
+      ]
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "femanieri.app.n8n.cloud",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+            "content-length": "194",
+            "accept": "*/*",
+            "accept-encoding": "gzip, br",
+            "accept-language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7",
+            "cdn-loop": "cloudflare; loops=1; subreqs=1",
+            "cf-connecting-ip": "179.125.133.236",
+            "cf-ew-via": "15",
+            "cf-ipcountry": "BR",
+            "cf-ray": "987218bb45d68060-GRU",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "cf-worker": "n8n.cloud",
+            "content-type": "text/plain;charset=UTF-8",
+            "origin": "https://4b7ee4c9-fb00-48d3-a389-430fe2340598.dev20.app-preview.com",
+            "priority": "u=1, i",
+            "referer": "https://4b7ee4c9-fb00-48d3-a389-430fe2340598.dev20.app-preview.com/",
+            "sec-ch-ua": "\"Chromium\";v=\"140\", \"Not=A?Brand\";v=\"24\", \"Google Chrome\";v=\"140\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "no-cors",
+            "sec-fetch-site": "cross-site",
+            "x-forwarded-for": "179.125.133.236, 172.71.234.248",
+            "x-forwarded-host": "femanieri.app.n8n.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "traefik-prod-users-gwc-79-75b7d58fff-sdgkf",
+            "x-is-trusted": "yes",
+            "x-real-ip": "179.125.133.236"
+          },
+          "params": {},
+          "query": {},
+          "body": "{\"nome\":\"FELIPE TADEU DE ALMEIDA MANIERI\",\"email\":\"felipemanieri@hotmail.com\",\"telefone\":\"11945356799\",\"nascimento\":\"12/07/1984\",\"estado\":\"SP\",\"cidade\":\"Atibaia\",\"vidas\":\"5\",\"mensagem\":\"tetste\"}",
+          "webhookUrl": "https://femanieri.app.n8n.cloud/webhook/WEBHOOK/BRADESCO",
+          "executionMode": "production"
+        }
+      }
+    ],
+    "📱 Webhook Evolution Resposta": [
+      {
+        "json": {}
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Proteção Contra Pico",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Processar Resposta OpenAI": {
+      "main": [
+        [
+          {
+            "node": "💬 Status Digitando OFF",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "🔗 Acionar P5 Reengajamento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mariana": {
+      "main": [
+        [
+          {
+            "node": "Debug OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Debug OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Processar Resposta OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar Prompt Mariana": {
+      "main": [
+        [
+          {
+            "node": "💬 Status Digitando ON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "💬 Status Digitando ON": {
+      "main": [
+        [
+          {
+            "node": "Delay Humano OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delay Humano OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Wait OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "💬 Status Digitando OFF": {
+      "main": [
+        [
+          {
+            "node": "IF Mensagem Mariana?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF Mensagem Mariana?": {
+      "main": [
+        [
+          {
+            "node": "WhatsApp Enviar Mariana",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Wait Inicial": {
+      "main": [
+        [
+          {
+            "node": "Preparar Prompt Mariana",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delay Humano Inicial": {
+      "main": [
+        [
+          {
+            "node": "Wait Inicial",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp Resposta Inicial": {
+      "main": [
+        [
+          {
+            "node": "Delay Humano Inicial",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Processar Dados Iniciais": {
+      "main": [
+        [
+          {
+            "node": "Telefone Válido? (Inicial)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Email Controle Interno",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "📋 Salvar Leads Brutos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Proteção Contra Pico": {
+      "main": [
+        [
+          {
+            "node": "Processar Dados Iniciais",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telefone Válido? (Inicial)": {
+      "main": [
+        [
+          {
+            "node": "WhatsApp Resposta Inicial",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Mariana",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp Enviar Mariana": {
+      "main": [
+        [
+          {
+            "node": "🔻 Proteção Contra Pico - Decremento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📱 Webhook Evolution Resposta": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Ignorar callbacks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ignorar callbacks": {
+      "main": [
+        [
+          {
+            "node": "🔍 Identificar Tipo Mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "É Áudio?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔍 Identificar Tipo Mensagem": {
+      "main": [
+        [
+          {
+            "node": "Ignorar callbacks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "✅ Confirmar Áudio Recebido": {
+      "main": [
+        [
+          {
+            "node": "📥 Baixar Áudio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📥 Baixar Áudio": {
+      "main": [
+        [
+          {
+            "node": "🎤 Transcrever Áudio OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🎤 Transcrever Áudio OpenAI": {
+      "main": [
+        [
+          {
+            "node": "📝 Processar Transcrição",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📝 Processar Transcrição": {
+      "main": [
+        [
+          {
+            "node": "🔀 Merge Audio + Texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔀 Merge Audio + Texto": {
+      "main": [
+        [
+          {
+            "node": "🧠 Buscar Histórico do Lead",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "🔗 Merge Resposta + Histórico",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🧠 Buscar Histórico do Lead": {
+      "main": [
+        [
+          {
+            "node": "🔗 Merge Resposta + Histórico",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "🔗 Merge Resposta + Histórico": {
+      "main": [
+        [
+          {
+            "node": "🔄 Mesclar Dados Inteligente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔄 Mesclar Dados Inteligente": {
+      "main": [
+        [
+          {
+            "node": "📥 Processar Resposta Cliente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📥 Processar Resposta Cliente": {
+      "main": [
+        [
+          {
+            "node": "✅ Dados Completos?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "✅ Dados Completos?": {
+      "main": [
+        [
+          {
+            "node": "🎯 Finalizar Qualificação",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "🔄 Limite de Interações?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔄 Limite de Interações?": {
+      "main": [
+        [
+          {
+            "node": "⏰ Marcar para Remarketing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar Prompt Mariana",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🎯 Finalizar Qualificação": {
+      "main": [
+        [
+          {
+            "node": "↔️ Montar Cidade_Estado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "↔️ Montar Cidade_Estado": {
+      "main": [
+        [
+          {
+            "node": "📊 Append Qualificados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⏰ Marcar para Remarketing": {
+      "main": [
+        [
+          {
+            "node": "📢 Notificar Supervisor",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "WhatsApp ROD Remarketing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📋 Salvar Leads Brutos": {
+      "main": [
+        []
+      ]
+    },
+    "É Áudio?1": {
+      "main": [
+        [
+          {
+            "node": "✅ Confirmar Áudio Recebido",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "🔀 Merge Audio + Texto",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "5a4035fc-c3b2-4b4f-af52-7cb3a2de5e47",
+  "meta": {
+    "instanceId": "4727e7f30d147ce7ed4c5b239012c65105f64ef89a16fc3d825f9fec3507f155"
+  },
+  "id": "rx7PQpj10Nq7Wbj5",
+  "tags": []
+}
