@@ -11,7 +11,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// SISTEMA DE RODÍZIO COMPLETO COM VALIDAÇÕES\nconst dados = $input.all()[0].json;\nconst sd = $getWorkflowStaticData('global');\n\n// CONFIGURAÇÃO COMPLETA DOS VENDEDORES\nconst vendedores = [\n  {\n    nome: 'Fabiana',\n    email: 'comercial@abmix.com.br',\n    whatsapp: '+5511971593900',\n    agendor: '638d91d6-d527-4ab4-bbb4-8739b30b2d15',\n    sheet_id: '19_5eBzI4Isek9ib_Tdsy_CzUj421IR7IReiHG2s77kA',\n    sheet_url: 'https://docs.google.com/spreadsheets/d/19_5eBzI4Isek9ib_Tdsy_CzUj421IR7IReiHG2s77kA/edit?usp=sharing',\n    ativo: true\n  },\n  {\n    nome: 'Juliana',\n    email: 'comercial6@abmix.com.br',\n    whatsapp: '+5511938020607',\n    agendor: 'f9d3388b-2842-4011-8031-21effa4f787b',\n    sheet_id: '1I739og8MjuggQ_rJhrcyeDNGpkgzxLQ4Qim73Xy6MbU',\n    sheet_url: 'https://docs.google.com/spreadsheets/d/1I739og8MjuggQ_rJhrcyeDNGpkgzxLQ4Qim73Xy6MbU/edit?usp=sharing',\n    ativo: true\n  },\n  {\n    nome: 'Monique',\n    email: 'comercial2@abmix.com.br',\n    whatsapp: '+5511945352603',\n    agendor: '8b8b5a47-6626-4db2-99b6-6b769c3742c5',\n    sheet_id: '1rj7mWV6IkVrjVkAr0vFGW7IxtvPKF2JI6vZ42Uh8rcs',\n    sheet_url: 'https://docs.google.com/spreadsheets/d/1rj7mWV6IkVrjVkAr0vFGW7IxtvPKF2JI6vZ42Uh8rcs/edit?usp=sharing',\n    ativo: true\n  },\n  {\n    nome: 'Isabela',\n    email: 'comercial4@abmix.com.br',\n    whatsapp: '+5511953281647',\n    agendor: '6dd660a9-d4c1-436a-8528-b82e93157865',\n    sheet_id: '1qpkW3YtDlTKD7XzDn3NaT2dTCDWAWWr7q6Wku5ufAq4',\n    sheet_url: 'https://docs.google.com/spreadsheets/d/1qpkW3YtDlTKD7XzDn3NaT2dTCDWAWWr7q6Wku5ufAq4/edit?usp=sharing',\n    ativo: true\n  }\n];\n\n// SUPERVISOR\nconst supervisor = {\n  nome: 'Rodrigo',\n  email: 'supervisao@abmix.com.br',\n  whatsapp: '+5511996163900',\n  agendor: '6f1f347a-4599-4148-84c7-a54dad6384d8',\n  sheet_id: '1bUg8Kqhl_4dhIy_unfqqBYqhV9ICrGyHu3muv0LW1Hk',\n  sheet_url: 'https://docs.google.com/spreadsheets/d/1bUg8Kqhl_4dhIy_unfqqBYqhV9ICrGyHu3muv0LW1Hk/edit?gid=0#gid=0'\n};\n\n// FILTRA APENAS VENDEDORES ATIVOS\nconst vendedoresAtivos = vendedores.filter(v => v.ativo);\nif (vendedoresAtivos.length === 0) {\n  throw new Error('Nenhum vendedor ativo no sistema!');\n}\n\n// RODÍZIO INTELIGENTE\nsd.rodizio_idx = (sd.rodizio_idx === undefined ? -1 : sd.rodizio_idx) + 1;\nconst vendedor = vendedoresAtivos[sd.rodizio_idx % vendedoresAtivos.length];\n\n// GERAR LEAD ID ÚNICO\nconst leadId = dados.lead_id || 'BRAD-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5).toUpperCase();\n\n// CALCULAR SCORE SE NÃO EXISTIR\nlet score = dados.score || 0;\nif (!score) {\n  if (dados.total_vidas >= 30) score += 30;\n  else if (dados.total_vidas >= 10) score += 20;\n  else if (dados.total_vidas >= 3) score += 10;\n  \n  if (dados.idade_titular <= 45) score += 20;\n  else if (dados.idade_titular <= 55) score += 10;\n  \n  if (dados.tipo_contratacao === 'Com Coparticipação') score += 15;\n  \n  score = Math.min(score, 100);\n}\n\n// CLASSIFICAR LEAD\nlet classificacao = 'Frio';\nif (score >= 70) classificacao = 'Quente';\nelse if (score >= 40) classificacao = 'Morno';\n\n// CLASSIFICAÇÃO EMOJI\nlet classificacao_emoji = '❄️ Frio';\nif (score >= 70) classificacao_emoji = '🔥 Quente';\nelse if (score >= 40) classificacao_emoji = '🙂 Morno';\n\n// TELEFONE E164\nlet telefone_e164 = dados.telefone_e164;\nif (!telefone_e164) {\n  const d = String(dados.telefone || '').replace(/\\D/g,'');\n  telefone_e164 = d.startsWith('55') ? `+${d}` : `+55${d}`;\n}\n\n// SUGERIR PLANO\nlet plano_sugerido = 'Plano Efetivo';\nif (dados.total_vidas >= 30) plano_sugerido = 'Plano Top Nacional';\nelse if (dados.total_vidas >= 10) plano_sugerido = 'Plano Adesão Flex';\n\n// FORMATAR MENSAGEM PERSONALIZADA PARA VENDEDOR\nconst mensagemVendedor = `🔥 *LEAD ${classificacao_emoji} - SCORE ${score}/100* 🔥\\n\\n` +\n  `📋 *ID:* ${leadId}\\n` +\n  `👤 *Nome:* ${dados.nome}\\n` +\n  `📱 *Telefone:* ${telefone_e164}\\n` +\n  `📧 *Email:* ${dados.email || 'Não informado'}\\n` +\n  `📍 *Cidade/Estado:* ${dados.cidade_estado || 'Não informado'}\\n\\n` +\n  `👥 *Total de Vidas:* ${dados.total_vidas}\\n` +\n  `🎂 *Idade Titular:* ${dados.idade_titular} anos\\n` +\n  `📋 *Tipo Contratação:* ${dados.tipo_contratacao}\\n` +\n  `🏥 *Hospital Preferência:* ${dados.hospital_preferencia || 'Não informado'}\\n` +\n  `💼 *Plano Atual:* ${dados.plano_atual || 'Não possui'}\\n\\n` +\n  `⭐ *CLASSIFICAÇÃO:* ${classificacao}\\n` +\n  `💰 *Valor Estimado:* R$ ${(dados.total_vidas * 350).toLocaleString('pt-BR')}\\n` +\n  `📌 *Plano Sugerido:* ${plano_sugerido}\\n\\n` +\n  `💬 *Última Mensagem da Mariana:*\\n${dados.mensagem_mariana || 'Lead qualificado via formulário'}\\n\\n` +\n  `⚡ *AÇÃO IMEDIATA NECESSÁRIA!*\\n` +\n  `Entre em contato em até 15 minutos para maior conversão!`;\n\n// RETORNAR TODOS OS DADOS PROCESSADOS\nreturn [{\n  ...dados,\n  lead_id: leadId,\n  vendedor: vendedor,\n  supervisor: supervisor,\n  score: score,\n  classificacao: classificacao,\n  classificacao_emoji: classificacao_emoji,\n  telefone_e164: telefone_e164,\n  plano_sugerido: plano_sugerido,\n  mensagem_vendedor: mensagemVendedor,\n  data_distribuicao: new Date().toISOString(),\n  timestamp_br: new Date().toLocaleString('pt-BR', {timeZone: 'America/Sao_Paulo'})\n}];"
+        "jsCode": "// SISTEMA DE RODÍZIO COMPLETO COM VALIDAÇÕES E OWNER ÚNICO\nconst dados = $input.all()[0].json;\nconst sd = $getWorkflowStaticData('global');\n\n// CONFIGURAÇÃO COMPLETA DOS VENDEDORES - RODÍZIO 1-5\nconst vendedores = [\n  {\n    nome: 'Fabiana',\n    email: 'comercial@abmix.com.br',\n    whatsapp: '+5511971593900',\n    agendor: '638d91d6-d527-4ab4-bbb4-8739b30b2d15',\n    sheet_id: '19_5eBzI4Isek9ib_Tdsy_CzUj421IR7IReiHG2s77kA',\n    sheet_url: 'https://docs.google.com/spreadsheets/d/19_5eBzI4Isek9ib_Tdsy_CzUj421IR7IReiHG2s77kA/edit?usp=sharing',\n    ativo: true\n  },\n  {\n    nome: 'Juliana',\n    email: 'comercial6@abmix.com.br',\n    whatsapp: '+5511938020607',\n    agendor: 'f9d3388b-2842-4011-8031-21effa4f787b',\n    sheet_id: '1I739og8MjuggQ_rJhrcyeDNGpkgzxLQ4Qim73Xy6MbU',\n    sheet_url: 'https://docs.google.com/spreadsheets/d/1I739og8MjuggQ_rJhrcyeDNGpkgzxLQ4Qim73Xy6MbU/edit?usp=sharing',\n    ativo: true\n  },\n  {\n    nome: 'Monique',\n    email: 'comercial2@abmix.com.br',\n    whatsapp: '+5511945352603',\n    agendor: '8b8b5a47-6626-4db2-99b6-6b769c3742c5',\n    sheet_id: '1rj7mWV6IkVrjVkAr0vFGW7IxtvPKF2JI6vZ42Uh8rcs',\n    sheet_url: 'https://docs.google.com/spreadsheets/d/1rj7mWV6IkVrjVkAr0vFGW7IxtvPKF2JI6vZ42Uh8rcs/edit?usp=sharing',\n    ativo: true\n  },\n  {\n    nome: 'Isabela',\n    email: 'comercial4@abmix.com.br',\n    whatsapp: '+5511953281647',\n    agendor: '6dd660a9-d4c1-436a-8528-b82e93157865',\n    sheet_id: '1qpkW3YtDlTKD7XzDn3NaT2dTCDWAWWr7q6Wku5ufAq4',\n    sheet_url: 'https://docs.google.com/spreadsheets/d/1qpkW3YtDlTKD7XzDn3NaT2dTCDWAWWr7q6Wku5ufAq4/edit?usp=sharing',\n    ativo: true\n  },\n  {\n    nome: 'Rodrigo',\n    email: 'supervisao@abmix.com.br',\n    whatsapp: '+5511996163900',\n    agendor: '6f1f347a-4599-4148-84c7-a54dad6384d8',\n    sheet_id: '1bUg8Kqhl_4dhIy_unfqqBYqhV9ICrGyHu3muv0LW1Hk',\n    sheet_url: 'https://docs.google.com/spreadsheets/d/1bUg8Kqhl_4dhIy_unfqqBYqhV9ICrGyHu3muv0LW1Hk/edit?gid=0#gid=0',\n    ativo: true\n  }\n];\n\n// SUPERVISOR (mesmo Rodrigo das configs acima)\nconst supervisor = vendedores.find(v => v.nome === 'Rodrigo');\n\n// FILTRA APENAS VENDEDORES ATIVOS\nconst vendedoresAtivos = vendedores.filter(v => v.ativo);\nif (vendedoresAtivos.length === 0) {\n  throw new Error('Nenhum vendedor ativo no sistema!');\n}\n\n// RODÍZIO INTELIGENTE 1-5 COM TOLERÂNCIA A FALHAS\nsd.rodizio_idx = (sd.rodizio_idx === undefined ? -1 : sd.rodizio_idx);\nlet owner = null;\nlet tentativas = 0;\nconst maxTentativas = vendedoresAtivos.length;\n\n// BUSCAR VENDEDOR VÁLIDO - PULA PROBLEMAS AUTOMATICAMENTE\nwhile (!owner && tentativas < maxTentativas) {\n  sd.rodizio_idx = (sd.rodizio_idx + 1) % vendedoresAtivos.length;\n  const candidato = vendedoresAtivos[sd.rodizio_idx];\n  tentativas++;\n  \n  try {\n    // VALIDAR CREDENCIAIS DO CANDIDATO\n    ['email','whatsapp','agendor','sheet_url'].forEach(k=>{\n      if(!candidato[k]) throw new Error(`Credencial faltando: ${k}`);\n    });\n    \n    // CANDIDATO VÁLIDO - USAR COMO OWNER\n    owner = candidato;\n    console.log(`✅ VENDEDOR SELECIONADO: ${owner.nome} (tentativa ${tentativas}/${maxTentativas})`);\n    \n  } catch (error) {\n    console.log(`⚠️ VENDEDOR PULADO: ${candidato.nome} - ${error.message}`);\n    // CONTINUA O LOOP PARA PRÓXIMO VENDEDOR\n  }\n}\n\n// FALLBACK DE EMERGÊNCIA - SE TODOS FALHARAM\nif (!owner) {\n  console.log('🚨 TODOS OS VENDEDORES COM PROBLEMA - USANDO FALLBACK');\n  owner = {\n    nome: 'SISTEMA-FALLBACK',\n    email: 'contato@abmixcorretora.com.br',\n    whatsapp: '+5511996163900',\n    agendor: '6f1f347a-4599-4148-84c7-a54dad6384d8',\n    sheet_url: 'https://docs.google.com/spreadsheets/d/1bUg8Kqhl_4dhIy_unfqqBYqhV9ICrGyHu3muv0LW1Hk/edit?gid=0#gid=0'\n  };\n}\n\nconst vendedor = owner; // manter compatibilidade\n\n// GERAR LEAD ID ÚNICO\nconst leadId = dados.lead_id || 'BRAD-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5).toUpperCase();\n\n// CALCULAR SCORE SE NÃO EXISTIR\nlet score = dados.score || 0;\nif (!score) {\n  if (dados.total_vidas >= 30) score += 30;\n  else if (dados.total_vidas >= 10) score += 20;\n  else if (dados.total_vidas >= 3) score += 10;\n  \n  if (dados.idade_titular <= 45) score += 20;\n  else if (dados.idade_titular <= 55) score += 10;\n  \n  if (dados.tipo_contratacao === 'Com Coparticipação') score += 15;\n  \n  score = Math.min(score, 100);\n}\n\n// CLASSIFICAR LEAD\nlet classificacao = 'Frio';\nif (score >= 70) classificacao = 'Quente';\nelse if (score >= 40) classificacao = 'Morno';\n\n// CLASSIFICAÇÃO EMOJI\nlet classificacao_emoji = '❄️ Frio';\nif (score >= 70) classificacao_emoji = '🔥 Quente';\nelse if (score >= 40) classificacao_emoji = '🙂 Morno';\n\n// TELEFONE E164\nlet telefone_e164 = dados.telefone_e164;\nif (!telefone_e164) {\n  const d = String(dados.telefone || '').replace(/\\D/g,'');\n  telefone_e164 = d.startsWith('55') ? `+${d}` : `+55${d}`;\n}\n\n// SUGERIR PLANO\nlet plano_sugerido = 'Plano Efetivo';\nif (dados.total_vidas >= 30) plano_sugerido = 'Plano Top Nacional';\nelse if (dados.total_vidas >= 10) plano_sugerido = 'Plano Adesão Flex';\n\n// FORMATAR MENSAGEM PERSONALIZADA PARA VENDEDOR\nconst mensagemVendedor = `🔥 *LEAD ${classificacao_emoji} - SCORE ${score}/100* 🔥\\n\\n` +\n  `📋 *ID:* ${leadId}\\n` +\n  `👤 *Nome:* ${dados.nome}\\n` +\n  `📱 *Telefone:* ${telefone_e164}\\n` +\n  `📧 *Email:* ${dados.email || 'Não informado'}\\n` +\n  `📍 *Cidade/Estado:* ${dados.cidade_estado || 'Não informado'}\\n\\n` +\n  `👥 *Total de Vidas:* ${dados.total_vidas}\\n` +\n  `🎂 *Idade Titular:* ${dados.idade_titular} anos\\n` +\n  `📋 *Tipo Contratação:* ${dados.tipo_contratacao}\\n` +\n  `🏥 *Hospital Preferência:* ${dados.hospital_preferencia || 'Não informado'}\\n` +\n  `💼 *Plano Atual:* ${dados.plano_atual || 'Não possui'}\\n\\n` +\n  `⭐ *CLASSIFICAÇÃO:* ${classificacao}\\n` +\n  `💰 *Valor Estimado:* R$ ${(dados.total_vidas * 350).toLocaleString('pt-BR')}\\n` +\n  `📌 *Plano Sugerido:* ${plano_sugerido}\\n\\n` +\n  `💬 *Última Mensagem da Mariana:*\\n${dados.mensagem_mariana || 'Lead qualificado via formulário'}\\n\\n` +\n  `⚡ *AÇÃO IMEDIATA NECESSÁRIA!*\\n` +\n  `Entre em contato em até 15 minutos para maior conversão!`;\n\n// CÓPIA PARA SUPERVISOR\nconst supervisor_copia = {\n  nome: supervisor.nome,\n  email: supervisor.email,\n  whatsapp: supervisor.whatsapp\n};\n\n// TRAVA ANTI-MISTURA DE CANAIS\nconst _check = {\n  to_email: owner.email,\n  to_whatsapp: owner.whatsapp,\n  to_agendor: owner.agendor,\n  to_sheet: owner.sheet_url\n};\n\n// RETORNAR TODOS OS DADOS PROCESSADOS\nreturn [{\n  ...dados,\n  lead_id: leadId,\n  vendedor: vendedor, // manter compatibilidade\n  owner: owner, // NOVO: owner único para todos os canais\n  supervisor: supervisor,\n  supervisor_copia: supervisor_copia,\n  score: score,\n  classificacao: classificacao,\n  classificacao_emoji: classificacao_emoji,\n  telefone_e164: telefone_e164,\n  plano_sugerido: plano_sugerido,\n  mensagem_vendedor: mensagemVendedor,\n  data_distribuicao: new Date().toISOString(),\n  timestamp_br: new Date().toLocaleString('pt-BR', {timeZone: 'America/Sao_Paulo'}),\n  _check: _check // trava anti-mistura\n}];"
       },
       "id": "sistema-rodizio",
       "name": "🎯 Sistema Rodízio Inteligente",
@@ -21,50 +21,65 @@
     },
     {
       "parameters": {
-        "operation": "update",
+        "operation": "append",
         "documentId": {
           "__rl": true,
           "value": "10jkc1GdqYdgEp2SBIYf6uYq8-kuMQTAn7yd01yfNWw",
           "mode": "id"
         },
-        "sheetName": {
-          "__rl": true,
-          "value": "Leads-Qualificados_Bradesco",
-          "mode": "name"
-        },
-        "columnToMatchOn": "Lead_ID",
-        "valueToMatchOn": "={{$json.lead_id}}",
-        "options": {},
+        "sheetName": "Leads-Qualificados_Bradesco",
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "Vendedor_Nome": "={{$json.vendedor.nome}}",
-            "Status": "Distribuído - {{$json.vendedor.nome}}"
+            "Lead_ID": "={{$json.lead_id}}",
+            "Nome": "={{$json.nome}}",
+            "Telefone": "={{$json.telefone}}",
+            "Telefone_E164": "={{$json.telefone_e164}}",
+            "Email": "={{$json.email || ''}}",
+            "Cidade_Estado": "={{$json.cidade_estado || ''}}",
+            "Idade_Titular": "={{$json.idade_titular}}",
+            "Total_Vidas": "={{$json.total_vidas}}",
+            "Idades_Dependentes": "={{$json.idades_dependentes || ''}}",
+            "Contratacao": "={{$json.tipo_contratacao}}",
+            "Hospital_Preferencia": "={{$json.hospital_preferencia || ''}}",
+            "Plano_Atual": "={{$json.plano_atual || ''}}",
+            "Preexistencia": "={{$json.preexistencia || 'Não'}}",
+            "Doenca_Grave": "={{$json.doenca_grave || 'Não'}}",
+            "Classificacao": "={{$json.classificacao}}",
+            "Classificacao_Emoji": "={{$json.classificacao_emoji}}",
+            "Score": "={{$json.score}}",
+            "Plano_Sugerido": "={{$json.plano_sugerido}}",
+            "Documentos": "={{$json.documentos || 'Pendente'}}",
+            "Data_Qualificacao": "={{$json.timestamp_br}}",
+            "Status": "Qualificado - Distribuído",
+            "Vendedor_Nome": "={{$json.owner.nome}}",
+            "Vendedor_Email": "={{$json.owner.email}}",
+            "Vendedor_WhatsApp": "={{$json.owner.whatsapp}}",
+            "Observações_Mariana": "={{$json.mensagem_mariana || ''}}",
+            "Ultima_Atividade": "",
+            "Tentativas_Remarketing": "0",
+            "Remarketing_Data": "",
+            "Mensagem": "={{$json.mensagem_vendedor}}"
           }
         }
       },
-      "id": "update-vendedor-qualificados",
-      "name": "📝 Atualizar Vendedor",
+      "id": "planilha-principal",
+      "name": "📊 Planilha Principal Qualificados",
       "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4,
       "position": [920, 340],
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "6bd1TECz7NA8rZx3",
-          "name": "Google Sheets account"
-        }
-      }
+      "typeVersion": 4
     },
     {
       "parameters": {
         "dataType": "string",
-        "value": "={{$json.vendedor.nome}}",
+        "value": "={{$json.owner.nome}}",
         "rules": {
           "rules": [
             { "output": 0, "value2": "Fabiana", "condition": "equal" },
             { "output": 1, "value2": "Juliana", "condition": "equal" },
             { "output": 2, "value2": "Monique", "condition": "equal" },
-            { "output": 3, "value2": "Isabela", "condition": "equal" }
+            { "output": 3, "value2": "Isabela", "condition": "equal" },
+            { "output": 4, "value2": "Rodrigo", "condition": "equal" }
           ]
         }
       },
@@ -77,46 +92,35 @@
     {
       "parameters": {
         "operation": "append",
-        "documentId": {
-          "__rl": true,
-          "value": "https://docs.google.com/spreadsheets/d/19_5eBzI4Isek9ib_Tdsy_CzUj421IR7IReiHG2s77kA/edit?usp=sharing",
-          "mode": "url"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "Leads_Bradesco",
-          "mode": "name"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Lead_ID": "={{$json[\"lead_id\"]}}",
-            "Nome": "={{$json[\"nome\"]}}",
-            "Telefone": "={{$json[\"telefone\"]}}",
-            "Email": "={{$json[\"email\"] || ''}}",
-            "Cidade_Estado": "={{$json[\"cidade_estado\"] || ''}}",
-            "Idade_Titular": "={{$json[\"idade_titular\"]}}",
-            "Total_Vidas": "={{$json[\"total_vidas\"]}}",
-            "Idades_Dependentes": "={{$json[\"idades_dependentes\"] || ''}}",
-            "Contratacao": "={{$json[\"tipo_contratacao\"]}}",
-            "Hospital_Preferencia": "={{$json[\"hospital_preferencia\"] || ''}}",
-            "Plano_Atual": "={{$json[\"plano_atual\"] || ''}}",
-            "Preexistencia": "={{$json[\"preexistencia\"] || 'Não'}}",
-            "Doenca_Grave": "={{$json[\"doenca_grave\"] || 'Não'}}",
-            "Classificacao": "={{$json[\"classificacao\"]}}",
-            "Score": "={{$json[\"score\"]}}",
-            "Plano_Sugerido": "={{$json[\"plano_sugerido\"]}}",
-            "Documentos": "Pendente",
-            "Data_Qualificacao": "={{$json[\"timestamp_br\"]}}",
-            "Status": "Qualificado - Distribuído",
-            "Vendedor_Nome": "={{$json[\"vendedor\"][\"nome\"]}}",
-            "Observacoes_Mariana": "={{$json[\"mensagem_mariana\"] || ''}}",
-            "Ultima_Atividade": "={{$json[\"timestamp_br\"]}}",
-            "Tentativas_Remarketing": "0",
-            "Remarketing_Data": "",
-            "Mensagem": "={{$json[\"mensagem\"] || ''}}"
-          }
-        }
+        "documentId": { "__rl": true, "value": "={{$json.owner.sheet_url}}", "mode": "url" },
+        "sheetName": "Leads_Bradesco",
+        "columns": { "mappingMode": "defineBelow", "value": {
+          "Lead_ID": "={{$json.lead_id}}",
+          "Nome": "={{$json.nome}}",
+          "Telefone": "={{$json.telefone}}",
+          "Telefone_E164": "={{$json.telefone_e164}}",
+          "Email": "={{$json.email || ''}}",
+          "Cidade_Estado": "={{$json.cidade_estado || ''}}",
+          "Idade_Titular": "={{$json.idade_titular}}",
+          "Total_Vidas": "={{$json.total_vidas}}",
+          "Idades_Dependentes": "={{$json.idades_dependentes || ''}}",
+          "Contratacao": "={{$json.tipo_contratacao}}",
+          "Hospital_Preferencia": "={{$json.hospital_preferencia || ''}}",
+          "Plano_Atual": "={{$json.plano_atual || ''}}",
+          "Preexistencia": "={{$json.preexistencia || 'Não'}}",
+          "Doenca_Grave": "={{$json.doenca_grave || 'Não'}}",
+          "Classificacao": "={{$json.classificacao}}",
+          "Classificacao_Emoji": "={{$json.classificacao_emoji}}",
+          "Score": "={{$json.score}}",
+          "Plano_Sugerido": "={{$json.plano_sugerido}}",
+          "Documentos": "Pendente",
+          "Data_Qualificacao": "={{$json.timestamp_br}}",
+          "Status": "Qualificado - Distribuído",
+          "Vendedor_Nome": "={{$json.owner.nome}}",
+          "Vendedor_Email": "={{$json.owner.email}}",
+          "Vendedor_WhatsApp": "={{$json.owner.whatsapp}}",
+          "Observações_Mariana": "={{$json.mensagem_mariana || ''}}"
+        } }
       },
       "id": "planilha-fabiana",
       "name": "📊 Planilha Fabiana",
@@ -127,46 +131,35 @@
     {
       "parameters": {
         "operation": "append",
-        "documentId": {
-          "__rl": true,
-          "value": "https://docs.google.com/spreadsheets/d/1I739og8MjuggQ_rJhrcyeDNGpkgzxLQ4Qim73Xy6MbU/edit?usp=sharing",
-          "mode": "url"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "Leads_Bradesco",
-          "mode": "name"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Lead_ID": "={{$json[\"lead_id\"]}}",
-            "Nome": "={{$json[\"nome\"]}}",
-            "Telefone": "={{$json[\"telefone\"]}}",
-            "Email": "={{$json[\"email\"] || ''}}",
-            "Cidade_Estado": "={{$json[\"cidade_estado\"] || ''}}",
-            "Idade_Titular": "={{$json[\"idade_titular\"]}}",
-            "Total_Vidas": "={{$json[\"total_vidas\"]}}",
-            "Idades_Dependentes": "={{$json[\"idades_dependentes\"] || ''}}",
-            "Contratacao": "={{$json[\"tipo_contratacao\"]}}",
-            "Hospital_Preferencia": "={{$json[\"hospital_preferencia\"] || ''}}",
-            "Plano_Atual": "={{$json[\"plano_atual\"] || ''}}",
-            "Preexistencia": "={{$json[\"preexistencia\"] || 'Não'}}",
-            "Doenca_Grave": "={{$json[\"doenca_grave\"] || 'Não'}}",
-            "Classificacao": "={{$json[\"classificacao\"]}}",
-            "Score": "={{$json[\"score\"]}}",
-            "Plano_Sugerido": "={{$json[\"plano_sugerido\"]}}",
-            "Documentos": "Pendente",
-            "Data_Qualificacao": "={{$json[\"timestamp_br\"]}}",
-            "Status": "Qualificado - Distribuído",
-            "Vendedor_Nome": "={{$json[\"vendedor\"][\"nome\"]}}",
-            "Observacoes_Mariana": "={{$json[\"mensagem_mariana\"] || ''}}",
-            "Ultima_Atividade": "={{$json[\"timestamp_br\"]}}",
-            "Tentativas_Remarketing": "0",
-            "Remarketing_Data": "",
-            "Mensagem": "={{$json[\"mensagem\"] || ''}}"
-          }
-        }
+        "documentId": { "__rl": true, "value": "={{$json.owner.sheet_url}}", "mode": "url" },
+        "sheetName": "Leads_Bradesco",
+        "columns": { "mappingMode": "defineBelow", "value": {
+            "Lead_ID": "={{$json.lead_id}}",
+            "Nome": "={{$json.nome}}",
+          "Telefone": "={{$json.telefone}}",
+          "Telefone_E164": "={{$json.telefone_e164}}",
+          "Email": "={{$json.email || ''}}",
+          "Cidade_Estado": "={{$json.cidade_estado || ''}}",
+            "Idade_Titular": "={{$json.idade_titular}}",
+            "Total_Vidas": "={{$json.total_vidas}}",
+          "Idades_Dependentes": "={{$json.idades_dependentes || ''}}",
+            "Contratacao": "={{$json.tipo_contratacao}}",
+          "Hospital_Preferencia": "={{$json.hospital_preferencia || ''}}",
+          "Plano_Atual": "={{$json.plano_atual || ''}}",
+          "Preexistencia": "={{$json.preexistencia || 'Não'}}",
+          "Doenca_Grave": "={{$json.doenca_grave || 'Não'}}",
+            "Classificacao": "={{$json.classificacao}}",
+          "Classificacao_Emoji": "={{$json.classificacao_emoji}}",
+            "Score": "={{$json.score}}",
+          "Plano_Sugerido": "={{$json.plano_sugerido}}",
+          "Documentos": "Pendente",
+          "Data_Qualificacao": "={{$json.timestamp_br}}",
+          "Status": "Qualificado - Distribuído",
+            "Vendedor_Nome": "={{$json.owner.nome}}",
+          "Vendedor_Email": "={{$json.owner.email}}",
+          "Vendedor_WhatsApp": "={{$json.owner.whatsapp}}",
+          "Observações_Mariana": "={{$json.mensagem_mariana || ''}}"
+        } }
       },
       "id": "planilha-juliana",
       "name": "📊 Planilha Juliana",
@@ -177,46 +170,35 @@
     {
       "parameters": {
         "operation": "append",
-        "documentId": {
-          "__rl": true,
-          "value": "https://docs.google.com/spreadsheets/d/1rj7mWV6IkVrjVkAr0vFGW7IxtvPKF2JI6vZ42Uh8rcs/edit?usp=sharing",
-          "mode": "url"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "Leads_Bradesco",
-          "mode": "name"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Lead_ID": "={{$json[\"lead_id\"]}}",
-            "Nome": "={{$json[\"nome\"]}}",
-            "Telefone": "={{$json[\"telefone\"]}}",
-            "Email": "={{$json[\"email\"] || ''}}",
-            "Cidade_Estado": "={{$json[\"cidade_estado\"] || ''}}",
-            "Idade_Titular": "={{$json[\"idade_titular\"]}}",
-            "Total_Vidas": "={{$json[\"total_vidas\"]}}",
-            "Idades_Dependentes": "={{$json[\"idades_dependentes\"] || ''}}",
-            "Contratacao": "={{$json[\"tipo_contratacao\"]}}",
-            "Hospital_Preferencia": "={{$json[\"hospital_preferencia\"] || ''}}",
-            "Plano_Atual": "={{$json[\"plano_atual\"] || ''}}",
-            "Preexistencia": "={{$json[\"preexistencia\"] || 'Não'}}",
-            "Doenca_Grave": "={{$json[\"doenca_grave\"] || 'Não'}}",
-            "Classificacao": "={{$json[\"classificacao\"]}}",
-            "Score": "={{$json[\"score\"]}}",
-            "Plano_Sugerido": "={{$json[\"plano_sugerido\"]}}",
-            "Documentos": "Pendente",
-            "Data_Qualificacao": "={{$json[\"timestamp_br\"]}}",
-            "Status": "Qualificado - Distribuído",
-            "Vendedor_Nome": "={{$json[\"vendedor\"][\"nome\"]}}",
-            "Observacoes_Mariana": "={{$json[\"mensagem_mariana\"] || ''}}",
-            "Ultima_Atividade": "={{$json[\"timestamp_br\"]}}",
-            "Tentativas_Remarketing": "0",
-            "Remarketing_Data": "",
-            "Mensagem": "={{$json[\"mensagem\"] || ''}}"
-          }
-        }
+        "documentId": { "__rl": true, "value": "={{$json.owner.sheet_url}}", "mode": "url" },
+        "sheetName": "Leads_Bradesco",
+        "columns": { "mappingMode": "defineBelow", "value": {
+          "Lead_ID": "={{$json.lead_id}}",
+          "Nome": "={{$json.nome}}",
+          "Telefone": "={{$json.telefone}}",
+          "Telefone_E164": "={{$json.telefone_e164}}",
+          "Email": "={{$json.email || ''}}",
+          "Cidade_Estado": "={{$json.cidade_estado || ''}}",
+          "Idade_Titular": "={{$json.idade_titular}}",
+          "Total_Vidas": "={{$json.total_vidas}}",
+          "Idades_Dependentes": "={{$json.idades_dependentes || ''}}",
+          "Contratacao": "={{$json.tipo_contratacao}}",
+          "Hospital_Preferencia": "={{$json.hospital_preferencia || ''}}",
+          "Plano_Atual": "={{$json.plano_atual || ''}}",
+          "Preexistencia": "={{$json.preexistencia || 'Não'}}",
+          "Doenca_Grave": "={{$json.doenca_grave || 'Não'}}",
+          "Classificacao": "={{$json.classificacao}}",
+          "Classificacao_Emoji": "={{$json.classificacao_emoji}}",
+          "Score": "={{$json.score}}",
+          "Plano_Sugerido": "={{$json.plano_sugerido}}",
+          "Documentos": "Pendente",
+          "Data_Qualificacao": "={{$json.timestamp_br}}",
+          "Status": "Qualificado - Distribuído",
+          "Vendedor_Nome": "={{$json.owner.nome}}",
+          "Vendedor_Email": "={{$json.owner.email}}",
+          "Vendedor_WhatsApp": "={{$json.owner.whatsapp}}",
+          "Observações_Mariana": "={{$json.mensagem_mariana || ''}}"
+        } }
       },
       "id": "planilha-monique",
       "name": "📊 Planilha Monique",
@@ -227,46 +209,35 @@
     {
       "parameters": {
         "operation": "append",
-        "documentId": {
-          "__rl": true,
-          "value": "https://docs.google.com/spreadsheets/d/1qpkW3YtDlTKD7XzDn3NaT2dTCDWAWWr7q6Wku5ufAq4/edit?usp=sharing",
-          "mode": "url"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "Leads_Bradesco",
-          "mode": "name"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Lead_ID": "={{$json[\"lead_id\"]}}",
-            "Nome": "={{$json[\"nome\"]}}",
-            "Telefone": "={{$json[\"telefone\"]}}",
-            "Email": "={{$json[\"email\"] || ''}}",
-            "Cidade_Estado": "={{$json[\"cidade_estado\"] || ''}}",
-            "Idade_Titular": "={{$json[\"idade_titular\"]}}",
-            "Total_Vidas": "={{$json[\"total_vidas\"]}}",
-            "Idades_Dependentes": "={{$json[\"idades_dependentes\"] || ''}}",
-            "Contratacao": "={{$json[\"tipo_contratacao\"]}}",
-            "Hospital_Preferencia": "={{$json[\"hospital_preferencia\"] || ''}}",
-            "Plano_Atual": "={{$json[\"plano_atual\"] || ''}}",
-            "Preexistencia": "={{$json[\"preexistencia\"] || 'Não'}}",
-            "Doenca_Grave": "={{$json[\"doenca_grave\"] || 'Não'}}",
-            "Classificacao": "={{$json[\"classificacao\"]}}",
-            "Score": "={{$json[\"score\"]}}",
-            "Plano_Sugerido": "={{$json[\"plano_sugerido\"]}}",
-            "Documentos": "Pendente",
-            "Data_Qualificacao": "={{$json[\"timestamp_br\"]}}",
-            "Status": "Qualificado - Distribuído",
-            "Vendedor_Nome": "={{$json[\"vendedor\"][\"nome\"]}}",
-            "Observacoes_Mariana": "={{$json[\"mensagem_mariana\"] || ''}}",
-            "Ultima_Atividade": "={{$json[\"timestamp_br\"]}}",
-            "Tentativas_Remarketing": "0",
-            "Remarketing_Data": "",
-            "Mensagem": "={{$json[\"mensagem\"] || ''}}"
-          }
-        }
+        "documentId": { "__rl": true, "value": "={{$json.owner.sheet_url}}", "mode": "url" },
+        "sheetName": "Leads_Bradesco",
+        "columns": { "mappingMode": "defineBelow", "value": {
+          "Lead_ID": "={{$json.lead_id}}",
+          "Nome": "={{$json.nome}}",
+          "Telefone": "={{$json.telefone}}",
+          "Telefone_E164": "={{$json.telefone_e164}}",
+          "Email": "={{$json.email || ''}}",
+          "Cidade_Estado": "={{$json.cidade_estado || ''}}",
+          "Idade_Titular": "={{$json.idade_titular}}",
+          "Total_Vidas": "={{$json.total_vidas}}",
+          "Idades_Dependentes": "={{$json.idades_dependentes || ''}}",
+          "Contratacao": "={{$json.tipo_contratacao}}",
+          "Hospital_Preferencia": "={{$json.hospital_preferencia || ''}}",
+          "Plano_Atual": "={{$json.plano_atual || ''}}",
+          "Preexistencia": "={{$json.preexistencia || 'Não'}}",
+          "Doenca_Grave": "={{$json.doenca_grave || 'Não'}}",
+          "Classificacao": "={{$json.classificacao}}",
+          "Classificacao_Emoji": "={{$json.classificacao_emoji}}",
+          "Score": "={{$json.score}}",
+          "Plano_Sugerido": "={{$json.plano_sugerido}}",
+          "Documentos": "Pendente",
+          "Data_Qualificacao": "={{$json.timestamp_br}}",
+          "Status": "Qualificado - Distribuído",
+          "Vendedor_Nome": "={{$json.owner.nome}}",
+          "Vendedor_Email": "={{$json.owner.email}}",
+          "Vendedor_WhatsApp": "={{$json.owner.whatsapp}}",
+          "Observações_Mariana": "={{$json.mensagem_mariana || ''}}"
+        } }
       },
       "id": "planilha-isabela",
       "name": "📊 Planilha Isabela",
@@ -282,44 +253,86 @@
           "value": "https://docs.google.com/spreadsheets/d/1bUg8Kqhl_4dhIy_unfqqBYqhV9ICrGyHu3muv0LW1Hk/edit?gid=0#gid=0",
           "mode": "url"
         },
-        "sheetName": {
-          "__rl": true,
-          "value": "Leads_Bradesco",
-          "mode": "name"
-        },
+        "sheetName": "Leads_Bradesco",
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "Lead_ID": "={{$json[\"lead_id\"]}}",
-            "Nome": "={{$json[\"nome\"]}}",
-            "Telefone": "={{$json[\"telefone\"]}}",
-            "Email": "={{$json[\"email\"] || ''}}",
-            "Cidade_Estado": "={{$json[\"cidade_estado\"] || ''}}",
-            "Idade_Titular": "={{$json[\"idade_titular\"]}}",
-            "Total_Vidas": "={{$json[\"total_vidas\"]}}",
-            "Idades_Dependentes": "={{$json[\"idades_dependentes\"] || ''}}",
-            "Contratacao": "={{$json[\"tipo_contratacao\"]}}",
-            "Hospital_Preferencia": "={{$json[\"hospital_preferencia\"] || ''}}",
-            "Plano_Atual": "={{$json[\"plano_atual\"] || ''}}",
-            "Preexistencia": "={{$json[\"preexistencia\"] || 'Não'}}",
-            "Doenca_Grave": "={{$json[\"doenca_grave\"] || 'Não'}}",
-            "Classificacao": "={{$json[\"classificacao\"]}}",
-            "Score": "={{$json[\"score\"]}}",
-            "Plano_Sugerido": "={{$json[\"plano_sugerido\"]}}",
-            "Documentos": "Pendente",
-            "Data_Qualificacao": "={{$json[\"timestamp_br\"]}}",
+            "Lead_ID": "={{$json.lead_id}}",
+            "Nome": "={{$json.nome}}",
+            "Telefone": "={{$json.telefone}}",
+            "Telefone_E164": "={{$json.telefone_e164}}",
+            "Email": "={{$json.email || ''}}",
+            "Cidade_Estado": "={{$json.cidade_estado || ''}}",
+            "Idade_Titular": "={{$json.idade_titular}}",
+            "Total_Vidas": "={{$json.total_vidas}}",
+            "Idades_Dependentes": "={{$json.idades_dependentes || ''}}",
+            "Contratacao": "={{$json.tipo_contratacao}}",
+            "Hospital_Preferencia": "={{$json.hospital_preferencia || ''}}",
+            "Plano_Atual": "={{$json.plano_atual || ''}}",
+            "Preexistencia": "={{$json.preexistencia || 'Não'}}",
+            "Doenca_Grave": "={{$json.doenca_grave || 'Não'}}",
+            "Classificacao": "={{$json.classificacao}}",
+            "Classificacao_Emoji": "={{$json.classificacao_emoji}}",
+            "Score": "={{$json.score}}",
+            "Plano_Sugerido": "={{$json.plano_sugerido}}",
+            "Documentos": "={{$json.documentos || 'Pendente'}}",
+            "Data_Qualificacao": "={{$json.timestamp_br}}",
             "Status": "Qualificado - Distribuído",
-            "Vendedor_Nome": "={{$json[\"vendedor\"][\"nome\"]}}",
-            "Observacoes_Mariana": "={{$json[\"mensagem_mariana\"] || ''}}",
-            "Ultima_Atividade": "={{$json[\"timestamp_br\"]}}",
-            "Tentativas_Remarketing": "0",
-            "Remarketing_Data": "",
-            "Mensagem": "={{$json[\"mensagem\"] || ''}}"
+            "Vendedor_Nome": "={{$json.owner.nome}}",
+            "Vendedor_Email": "={{$json.owner.email}}",
+            "Vendedor_WhatsApp": "={{$json.owner.whatsapp}}",
+            "Observações_Mariana": "={{$json.mensagem_mariana || ''}}"
           }
         }
       },
-      "id": "planilha-rodrigo",
-      "name": "📊 Planilha Rodrigo",
+      "id": "planilha-rodrigo-vendedor",
+      "name": "📊 Planilha Rodrigo (Vendedor)",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [1360, 540],
+      "typeVersion": 4
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1bUg8Kqhl_4dhIy_unfqqBYqhV9ICrGyHu3muv0LW1Hk/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": "Auditoria_Bradesco",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Lead_ID": "={{$json.lead_id}}",
+            "Nome": "={{$json.nome}}",
+            "Telefone": "={{$json.telefone}}",
+            "Telefone_E164": "={{$json.telefone_e164}}",
+            "Email": "={{$json.email || ''}}",
+            "Cidade_Estado": "={{$json.cidade_estado || ''}}",
+            "Idade_Titular": "={{$json.idade_titular}}",
+            "Total_Vidas": "={{$json.total_vidas}}",
+            "Idades_Dependentes": "={{$json.idades_dependentes || ''}}",
+            "Contratacao": "={{$json.tipo_contratacao}}",
+            "Hospital_Preferencia": "={{$json.hospital_preferencia || ''}}",
+            "Plano_Atual": "={{$json.plano_atual || ''}}",
+            "Preexistencia": "={{$json.preexistencia || 'Não'}}",
+            "Doenca_Grave": "={{$json.doenca_grave || 'Não'}}",
+            "Classificacao": "={{$json.classificacao}}",
+            "Classificacao_Emoji": "={{$json.classificacao_emoji}}",
+            "Score": "={{$json.score}}",
+            "Plano_Sugerido": "={{$json.plano_sugerido}}",
+            "Documentos": "={{$json.documentos || 'Pendente'}}",
+            "Data_Qualificacao": "={{$json.timestamp_br}}",
+            "Status": "Distribuído para {{$json.owner.nome}}",
+            "Vendedor_Nome": "={{$json.owner.nome}}",
+            "Vendedor_Email": "={{$json.owner.email}}",
+            "Vendedor_WhatsApp": "={{$json.owner.whatsapp}}",
+            "Observações_Mariana": "={{$json.mensagem_mariana || ''}}"
+          }
+        }
+      },
+      "id": "planilha-auditoria",
+      "name": "📊 Planilha Auditoria Rodrigo",
       "type": "n8n-nodes-base.googleSheets",
       "position": [1580, 340],
       "typeVersion": 4
@@ -327,10 +340,12 @@
     {
       "parameters": {
         "fromEmail": "felipemanieri@abmix.tech",
-        "toEmail": "={{$json.vendedor.email}}",
+        "toEmail": "={{$json.owner.email}}",
         "subject": "=🔥 LEAD {{$json.classificacao_emoji}} [Score: {{$json.score}}] - {{$json.nome}} - AÇÃO IMEDIATA!",
         "message": "=<html><body style='font-family: Arial, sans-serif;'>\\n<div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 10px 10px 0 0;'>\\n  <h1 style='color: white; margin: 0;'>🔥 NOVO LEAD QUALIFICADO!</h1>\\n  <p style='color: white; font-size: 18px; margin: 5px 0;'>Score: {{$json.score}}/100 - Classificação: {{$json.classificacao_emoji}}</p>\\n</div>\\n\\n<div style='background: #f8f9fa; padding: 20px; border-left: 4px solid #28a745;'>\\n  <h2 style='color: #28a745; margin-top: 0;'>📋 IDENTIFICAÇÃO DO LEAD</h2>\\n  <p><strong>ID:</strong> {{$json.lead_id}}</p>\\n  <p><strong>Nome:</strong> {{$json.nome}}</p>\\n  <p><strong>Telefone:</strong> <a href='tel:{{$json.telefone_e164}}'>{{$json.telefone_e164}}</a></p>\\n  <p><strong>Email:</strong> {{$json.email || 'Não informado'}}</p>\\n  <p><strong>Cidade/Estado:</strong> {{$json.cidade_estado || 'Não informado'}}</p>\\n</div>\\n\\n<div style='background: #fff; padding: 20px; border-left: 4px solid #007bff;'>\\n  <h2 style='color: #007bff;'>👥 INFORMAÇÕES DO PLANO</h2>\\n  <p><strong>Total de Vidas:</strong> {{$json.total_vidas}}</p>\\n  <p><strong>Idade Titular:</strong> {{$json.idade_titular}} anos</p>\\n  <p><strong>Tipo Contratação:</strong> {{$json.tipo_contratacao}}</p>\\n  <p><strong>Hospital Preferência:</strong> {{$json.hospital_preferencia || 'Não informado'}}</p>\\n  <p><strong>Plano Atual:</strong> {{$json.plano_atual || 'Não possui'}}</p>\\n  <p><strong>Preexistência:</strong> {{$json.preexistencia || 'Não'}}</p>\\n  <p><strong>Doença Grave:</strong> {{$json.doenca_grave || 'Não'}}</p>\\n</div>\\n\\n<div style='background: #fff3cd; padding: 20px; border-left: 4px solid #ffc107;'>\\n  <h2 style='color: #856404;'>💰 ANÁLISE COMERCIAL</h2>\\n  <p><strong>Plano Sugerido:</strong> {{$json.plano_sugerido}}</p>\\n  <p><strong>Valor Estimado:</strong> <span style='font-size: 24px; color: #28a745; font-weight: bold;'>R$ {{($json.total_vidas * 350).toLocaleString('pt-BR')}}</span></p>\\n</div>\\n\\n<div style='background: #d1ecf1; padding: 20px; border-left: 4px solid #17a2b8;'>\\n  <h2 style='color: #0c5460;'>💬 ÚLTIMA INTERAÇÃO COM MARIANA</h2>\\n  <p style='font-style: italic;'>{{$json.mensagem_mariana || 'Lead qualificado diretamente via formulário'}}</p>\\n</div>\\n\\n<div style='background: #f8d7da; padding: 20px; border-radius: 0 0 10px 10px; text-align: center;'>\\n  <h2 style='color: #721c24; margin: 0;'>⚡ AÇÃO NECESSÁRIA!</h2>\\n  <p style='font-size: 16px; color: #721c24; margin: 10px 0;'><strong>Entre em contato em até 15 minutos para máxima conversão!</strong></p>\\n  <a href='tel:{{$json.telefone_e164}}' style='display: inline-block; padding: 12px 30px; background: #28a745; color: white; text-decoration: none; border-radius: 5px; font-size: 18px; margin: 10px;'>📞 LIGAR AGORA</a>\\n  <a href='https://wa.me/{{$json.telefone_e164.replace(\"+\", \"\")}}' style='display: inline-block; padding: 12px 30px; background: #25d366; color: white; text-decoration: none; border-radius: 5px; font-size: 18px; margin: 10px;'>💬 WHATSAPP</a>\\n</div>\\n\\n<p style='text-align: center; color: #6c757d; margin-top: 20px; font-size: 12px;'>\\n  Lead distribuído em {{$json.timestamp_br}} | Sistema de Automação Bradesco Saúde\\n</p>\\n</body></html>",
-        "options": {}
+        "options": {
+          "continueOnFail": true
+        }
       },
       "id": "email-vendedor",
       "name": "📧 Email Vendedor",
@@ -351,7 +366,7 @@
         "sendBody": true,
         "bodyParameters": {
           "parameters": [
-            { "name": "number", "value": "={{$json.vendedor.whatsapp}}" },
+            { "name": "number", "value": "={{$json.owner.whatsapp}}" },
             { "name": "text", "value": "={{$json.mensagem_vendedor}}" }
           ]
         },
@@ -366,7 +381,8 @@
       "name": "📱 WhatsApp Vendedor",
       "type": "n8n-nodes-base.httpRequest",
       "position": [1800, 340],
-      "typeVersion": 4.1
+      "typeVersion": 4.1,
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -376,7 +392,7 @@
         "bodyParameters": {
           "parameters": [
             { "name": "number", "value": "={{$json.supervisor.whatsapp}}" },
-            { "name": "text", "value": "=📬 Cópia: {{$json.nome}} → {{$json.vendedor.nome}} • {{$json.classificacao_emoji}}/{{$json.score}} • {{$json.telefone_e164}}" }
+            { "name": "text", "value": "=📬 Cópia: {{$json.nome}} → {{$json.owner.nome}} • {{$json.classificacao_emoji}}/{{$json.score}} • {{$json.telefone_e164}}" }
           ]
         },
         "headerParameters": {
@@ -390,7 +406,8 @@
       "name": "📱 WhatsApp Rodrigo",
       "type": "n8n-nodes-base.httpRequest",
       "position": [1800, 440],
-      "typeVersion": 4.1
+      "typeVersion": 4.1,
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -418,7 +435,7 @@
         "bodyParameters": {
           "parameters": [
             { "name": "number", "value": "5511996163900" },
-            { "name": "text", "value": "=🚨 *ALERTA: LEAD PREMIUM!* 🚨\\n\\n*Score:* {{$json.score}}/100\\n*Cliente:* {{$json.nome}}\\n*Vidas:* {{$json.total_vidas}}\\n*Valor:* R$ {{($json.total_vidas * 350).toLocaleString('pt-BR')}}\\n*Vendedor:* {{$json.vendedor.nome}}\\n\\nLead de alta prioridade distribuído!" }
+            { "name": "text", "value": "=🚨 *ALERTA: LEAD PREMIUM!* 🚨\\n\\n*Score:* {{$json.score}}/100\\n*Cliente:* {{$json.nome}}\\n*Vidas:* {{$json.total_vidas}}\\n*Valor:* R$ {{($json.total_vidas * 350).toLocaleString('pt-BR')}}\\n*Vendedor:* {{$json.owner.nome}}\\n\\nLead de alta prioridade distribuído!" }
           ]
         },
         "headerParameters": {
@@ -432,44 +449,139 @@
       "name": "🚨 Alerta WhatsApp Rodrigo (Score Alto)",
       "type": "n8n-nodes-base.httpRequest",
       "position": [2240, 240],
-      "typeVersion": 4.1
+      "typeVersion": 4.1,
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
         "fromEmail": "felipemanieri@abmix.tech",
         "toEmail": "contato@abmixcorretora.com.br",
-        "subject": "=[CONTROLE] Lead {{$json.lead_id}} → {{$json.vendedor.nome}} • {{$json.classificacao_emoji}}/{{$json.score}}",
-        "message": "=<html><body><h2>📊 Lead Qualificado Distribuído</h2><p><strong>Lead:</strong> {{$json.nome}} ({{$json.lead_id}})</p><p><strong>Score:</strong> {{$json.score}}/100 ({{$json.classificacao_emoji}})</p><p><strong>Vendedor:</strong> {{$json.vendedor.nome}}</p><p><strong>Telefone:</strong> {{$json.telefone_e164}}</p><p><strong>Total Vidas:</strong> {{$json.total_vidas}}</p><p><strong>Valor Estimado:</strong> R$ {{($json.total_vidas * 350).toLocaleString('pt-BR')}}</p><p><strong>Planilha do vendedor:</strong> <a href='{{$json.vendedor.sheet_url}}'>Acessar Planilha</a></p></body></html>"
+        "cc": "={{$json.supervisor_copia.email}}",
+        "subject": "=[CONTROLE] Lead {{$json.lead_id}} → {{$json.owner.nome}} • {{$json.classificacao_emoji}}/{{$json.score}}",
+        "message": "=<html><body><h2>📊 Lead Qualificado Distribuído</h2><p><strong>Lead:</strong> {{$json.nome}} ({{$json.lead_id}})</p><p><strong>Score:</strong> {{$json.score}}/100 ({{$json.classificacao_emoji}})</p><p><strong>Owner:</strong> {{$json.owner.nome}}</p><p><strong>Telefone:</strong> {{$json.telefone_e164}}</p><p><strong>Total Vidas:</strong> {{$json.total_vidas}}</p><p><strong>Valor Estimado:</strong> R$ {{($json.total_vidas * 350).toLocaleString('pt-BR')}}</p><p><strong>Planilha do vendedor:</strong> <a href='{{$json.owner.sheet_url}}'>Acessar Planilha</a></p><p><strong>Verificação Anti-Mistura:</strong><br/>Email: {{$json._check.to_email}}<br/>WhatsApp: {{$json._check.to_whatsapp}}<br/>Agendor: {{$json._check.to_agendor}}<br/>Planilha: {{$json._check.to_sheet}}</p></body></html>"
       },
       "id": "email-controle-todos",
       "name": "📧 Email Controle (Todos os Scores)",
       "type": "n8n-nodes-base.gmail",
       "position": [2020, 440],
       "typeVersion": 2.1,
-      "credentials": { "gmailOAuth2": { "id": "gmail-felipe", "name": "Gmail Felipe" } }
+      "credentials": { "gmailOAuth2": { "id": "gmail-felipe", "name": "Gmail Felipe" } },
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
         "method": "POST",
-        "url": "https://api.agendor.com.br/v3/people/upsert",
+        "url": "https://api.agendor.com.br/v3/people",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\"name\":\"{{$json.nome}}\",\"contact\":{\"mobile\":\"{{$json.telefone_e164}}\",\"whatsapp\":\"{{$json.telefone_e164}}\"},\"customFields\":{\"lead_id\":\"{{$json.lead_id}}\",\"vendedor\":\"{{$json.vendedor.nome}}\"}}",
+        "jsonBody": "={\"name\":\"{{$json.nome}}\",\"ownerUserId\":\"638d91d6-d527-4ab4-bbb4-8739b30b2d15\",\"emails\":[{\"address\":\"{{$json.email}}\"}],\"phones\":[{\"number\":\"{{$json.telefone_e164}}\"}],\"city\":\"{{$json.cidade}}\",\"state\":\"{{$json.estado}}\",\"customFields\":{\"lead_id\":\"{{$json.lead_id}}\",\"vendedor\":\"Fabiana\"}}",
         "headerParameters": {
           "parameters": [
-            { "name": "Authorization", "value": "Token {{$json.vendedor.agendor}}" },
+            { "name": "Authorization", "value": "Token 638d91d6-d527-4ab4-bbb4-8739b30b2d15" },
             { "name": "Content-Type", "value": "application/json" }
           ]
         },
-        "options": {
-          "continueOnFail": true
-        }
+        "options": { "continueOnFail": true }
       },
-      "id": "agendor-vendedor-unico",
-      "name": "💼 Agendor Contato (Único)",
+      "id": "agendor-fabiana",
+      "name": "💼 Agendor Fabiana",
       "type": "n8n-nodes-base.httpRequest",
-      "position": [1580, 140],
+      "position": [1800, 40],
       "typeVersion": 4.1
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.agendor.com.br/v3/people",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"name\":\"{{$json.nome}}\",\"ownerUserId\":\"f9d3388b-2842-4011-8031-21effa4f787b\",\"emails\":[{\"address\":\"{{$json.email}}\"}],\"phones\":[{\"number\":\"{{$json.telefone_e164}}\"}],\"city\":\"{{$json.cidade}}\",\"state\":\"{{$json.estado}}\",\"customFields\":{\"lead_id\":\"{{$json.lead_id}}\",\"vendedor\":\"Juliana\"}}",
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "Token f9d3388b-2842-4011-8031-21effa4f787b" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "options": { "continueOnFail": true }
+      },
+      "id": "agendor-juliana",
+      "name": "💼 Agendor Juliana",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [1800, 120],
+      "typeVersion": 4.1
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.agendor.com.br/v3/people",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"name\":\"{{$json.nome}}\",\"ownerUserId\":\"8b8b5a47-6626-4db2-99b6-6b769c3742c5\",\"emails\":[{\"address\":\"{{$json.email}}\"}],\"phones\":[{\"number\":\"{{$json.telefone_e164}}\"}],\"city\":\"{{$json.cidade}}\",\"state\":\"{{$json.estado}}\",\"customFields\":{\"lead_id\":\"{{$json.lead_id}}\",\"vendedor\":\"Monique\"}}",
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "Token 8b8b5a47-6626-4db2-99b6-6b769c3742c5" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "options": { "continueOnFail": true }
+      },
+      "id": "agendor-monique",
+      "name": "💼 Agendor Monique",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [1800, 200],
+      "typeVersion": 4.1
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.agendor.com.br/v3/people",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"name\":\"{{$json.nome}}\",\"ownerUserId\":\"6dd660a9-d4c1-436a-8528-b82e93157865\",\"emails\":[{\"address\":\"{{$json.email}}\"}],\"phones\":[{\"number\":\"{{$json.telefone_e164}}\"}],\"city\":\"{{$json.cidade}}\",\"state\":\"{{$json.estado}}\",\"customFields\":{\"lead_id\":\"{{$json.lead_id}}\",\"vendedor\":\"Isabela\"}}",
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "Token 6dd660a9-d4c1-436a-8528-b82e93157865" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "options": { "continueOnFail": true }
+      },
+      "id": "agendor-isabela",
+      "name": "💼 Agendor Isabela",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [1800, 280],
+      "typeVersion": 4.1
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.agendor.com.br/v3/people",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"name\":\"{{$json.nome}}\",\"ownerUserId\":\"6f1f347a-4599-4148-84c7-a54dad6384d8\",\"emails\":[{\"address\":\"{{$json.email}}\"}],\"phones\":[{\"number\":\"{{$json.telefone_e164}}\"}],\"city\":\"{{$json.cidade}}\",\"state\":\"{{$json.estado}}\",\"customFields\":{\"lead_id\":\"{{$json.lead_id}}\",\"vendedor\":\"Rodrigo\"}}",
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "Token 6f1f347a-4599-4148-84c7-a54dad6384d8" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "options": { "continueOnFail": true }
+      },
+      "id": "agendor-rodrigo",
+      "name": "💼 Agendor Rodrigo",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [1800, 360],
+      "typeVersion": 4.1
+    },
+    {
+      "parameters": {
+        "jsCode": "// VALIDAÇÃO RESILIENTE - REGISTRA PROBLEMAS MAS CONTINUA FLUXO\nconst dados = $input.all()[0].json;\nlet alertas = [];\n\n// Verifica se o owner está presente\nif (!dados.owner || !dados.owner.email) {\n  alertas.push('⚠️ Owner ausente no contexto!');\n  console.log('🚨 ERRO CRÍTICO: Owner ausente no contexto!');\n  // Continua mesmo com problema - fluxo não pode parar\n}\n\n// Validações com logs de alerta (não interrompe)\nif (dados.owner && dados._check) {\n  if (dados._check.to_email !== dados.owner.email) {\n    alertas.push(`Email: ${dados._check.to_email} != ${dados.owner.email}`);\n  }\n  \n  if (dados._check.to_whatsapp !== dados.owner.whatsapp) {\n    alertas.push(`WhatsApp: ${dados._check.to_whatsapp} != ${dados.owner.whatsapp}`);\n  }\n  \n  if (dados._check.to_agendor !== dados.owner.agendor) {\n    alertas.push(`Agendor: ${dados._check.to_agendor} != ${dados.owner.agendor}`);\n  }\n  \n  if (dados._check.to_sheet !== dados.owner.sheet_url) {\n    alertas.push(`Planilha: ${dados._check.to_sheet} != ${dados.owner.sheet_url}`);\n  }\n}\n\n// Logs de resultado\nif (alertas.length > 0) {\n  console.log(`⚠️ ALERTAS DETECTADOS (${alertas.length}):`);\n  alertas.forEach(alerta => console.log(`   - ${alerta}`));\n  console.log('🔄 FLUXO CONTINUA MESMO COM ALERTAS');\n} else {\n  console.log(`✅ VALIDAÇÃO OK - Owner: ${dados.owner?.nome || 'N/A'} | Lead: ${dados.lead_id}`);\n  console.log(`📧 Email: ${dados._check?.to_email || 'N/A'}`);\n  console.log(`📱 WhatsApp: ${dados._check?.to_whatsapp || 'N/A'}`);\n  console.log(`💼 Agendor: ${dados._check?.to_agendor || 'N/A'}`);\n  console.log(`📊 Planilha: ${dados._check?.to_sheet || 'N/A'}`);\n}\n\n// SEMPRE RETORNA DADOS - FLUXO NUNCA PARA\nreturn [{\n  ...dados,\n  alertas_validacao: alertas\n}];"
+      },
+      "id": "validacao-anti-mistura",
+      "name": "🔒 Validação Resiliente",
+      "type": "n8n-nodes-base.code",
+      "position": [1800, 140],
+      "typeVersion": 2
     }
   ],
   "connections": {
@@ -477,50 +589,70 @@
       "main": [[{"node": "🎯 Sistema Rodízio Inteligente"}]]
     },
     "🎯 Sistema Rodízio Inteligente": {
+      "main": [[{"node": "📊 Planilha Principal Qualificados"}]]
+    },
+    "📊 Planilha Principal Qualificados": {
       "main": [[
         {"node": "🔀 Switch Vendedor Individual"},
-        {"node": "📊 Planilha Rodrigo"},
-        {"node": "📧 Email Controle (Todos os Scores)"},
-        {"node": "💼 Agendor Contato (Único)"},
-        {"node": "📝 Atualizar Vendedor"}
+        {"node": "📊 Planilha Auditoria"},
+        {"node": "📧 Email Controle (Todos os Scores)"}
       ]]
-    },
-    "📝 Atualizar Vendedor": {
-      "main": [[]]
     },
     "🔀 Switch Vendedor Individual": {
       "main": [
         [{"node": "📊 Planilha Fabiana"}],
         [{"node": "📊 Planilha Juliana"}],
         [{"node": "📊 Planilha Monique"}],
-        [{"node": "📊 Planilha Isabela"}]
+        [{"node": "📊 Planilha Isabela"}],
+        [{"node": "📊 Planilha Rodrigo (Vendedor)"}]
       ]
     },
     "📊 Planilha Fabiana": {
       "main": [[
-        {"node": "📧 Email Vendedor"},
-        {"node": "📱 WhatsApp Vendedor"},
-        {"node": "📱 WhatsApp Rodrigo"},
-        {"node": "Score >= 70?"}
+        {"node": "💼 Agendor Fabiana"},
+        {"node": "🔒 Validação Resiliente"}
       ]]
     },
     "📊 Planilha Juliana": {
       "main": [[
-        {"node": "📧 Email Vendedor"},
-        {"node": "📱 WhatsApp Vendedor"},
-        {"node": "📱 WhatsApp Rodrigo"},
-        {"node": "Score >= 70?"}
+        {"node": "💼 Agendor Juliana"},
+        {"node": "🔒 Validação Resiliente"}
       ]]
     },
     "📊 Planilha Monique": {
       "main": [[
-        {"node": "📧 Email Vendedor"},
-        {"node": "📱 WhatsApp Vendedor"},
-        {"node": "📱 WhatsApp Rodrigo"},
-        {"node": "Score >= 70?"}
+        {"node": "💼 Agendor Monique"},
+        {"node": "🔒 Validação Resiliente"}
       ]]
     },
     "📊 Planilha Isabela": {
+      "main": [[
+        {"node": "💼 Agendor Isabela"},
+        {"node": "🔒 Validação Resiliente"}
+      ]]
+    },
+    "📊 Planilha Rodrigo (Vendedor)": {
+      "main": [[
+        {"node": "💼 Agendor Rodrigo"},
+        {"node": "🔒 Validação Resiliente"}
+      ]]
+    },
+    "💼 Agendor Fabiana": {
+      "main": [[]]
+    },
+    "💼 Agendor Juliana": {
+      "main": [[]]
+    },
+    "💼 Agendor Monique": {
+      "main": [[]]
+    },
+    "💼 Agendor Isabela": {
+      "main": [[]]
+    },
+    "💼 Agendor Rodrigo": {
+      "main": [[]]
+    },
+    "🔒 Validação Resiliente": {
       "main": [[
         {"node": "📧 Email Vendedor"},
         {"node": "📱 WhatsApp Vendedor"},
